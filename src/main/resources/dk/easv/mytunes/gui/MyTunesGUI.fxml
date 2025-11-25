@@ -22,7 +22,7 @@
          <children>
             <AnchorPane>
                <children>
-                  <Button graphicTextGap="1.0" layoutX="74.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" style="-fx-background-radius: 100;" styleClass="" text="▶">
+                  <Button graphicTextGap="1.0" layoutX="74.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#btnPlayOnClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-radius: 100;" styleClass="" text="▶">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
