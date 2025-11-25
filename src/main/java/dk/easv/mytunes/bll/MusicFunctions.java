@@ -4,7 +4,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class MusicFunctions {
-    private String bip = "music.mp3";
+    private String bip = "music3.mp3";
     private Media hit = new Media(new File(bip).toURI().toString());
     private MediaPlayer mediaPlayer = new MediaPlayer(hit);
 
@@ -42,7 +42,16 @@ public class MusicFunctions {
         return fullDuration;
     }
     public String getMusic() {
-        return bip.replace(".mp3", "").trim();
+        if(bip.contains(".wav"))
+            return bip.replace(".wav", "").trim();
+        else{
+            return bip.replace(".mp3", "").trim();
+        }
+    }
+
+    public void restartMusic() {
+        mediaPlayer.stop();
+        mediaPlayer.play();
     }
 
 }

@@ -3,7 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-
+*.mp3
+*.mp4
+*.wav
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -13,8 +15,7 @@ target/
 *.iws
 *.iml
 *.ipr
-*.mp3
-*.mp4
+
 ### Eclipse ###
 .apt_generated
 .classpath

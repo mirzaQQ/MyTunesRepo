@@ -26,7 +26,7 @@
                      <font>
                         <Font size="24.0" />
                      </font></Button>
-                  <Button layoutX="4.0" layoutY="25.0" mnemonicParsing="false" style="-fx-background-radius: 100;" text="⮜">
+                  <Button layoutX="4.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnBckOnClick" style="-fx-background-radius: 100;" text="⮜">
                      <font>
                         <Font size="18.0" />
                      </font></Button>
@@ -60,19 +60,19 @@
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="260.0" prefHeight="425.0" prefWidth="260.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label alignment="TOP_LEFT" text="Label" VBox.vgrow="ALWAYS" />
+                  <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="50.0" text="Playlists" VBox.vgrow="ALWAYS" />
                   <TableView maxHeight="1.7976931348623157E308" maxWidth="260.0" prefHeight="200.0" prefWidth="260.0" VBox.vgrow="ALWAYS">
                     <columns>
-                      <TableColumn maxWidth="120.0" prefWidth="120.0" text="C1" />
-                      <TableColumn maxWidth="70.0" prefWidth="70.0" text="C2" />
-                        <TableColumn maxWidth="70.0" prefWidth="70.0" text="C3" />
+                      <TableColumn maxWidth="120.0" prefWidth="120.0" text="Name" />
+                      <TableColumn maxWidth="70.0" prefWidth="70.0" text="Songs" />
+                        <TableColumn maxWidth="70.0" prefWidth="70.0" text="Time" />
                     </columns>
                   </TableView>
                   <HBox maxHeight="30.0" maxWidth="240.0" prefHeight="30.0" prefWidth="240.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" text="New.." />
+                        <Button mnemonicParsing="false" text="Edit" />
+                        <Button mnemonicParsing="false" text="Delete" />
                      </children>
                   </HBox>
                </children>
@@ -82,13 +82,13 @@
             </VBox>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="425.0" prefWidth="240.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Label" />
+                  <Label text="Songs on playlist" />
                   <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="240.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="30.0" maxWidth="200.0" prefHeight="30.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Button mnemonicParsing="false" text="Button" />
                         <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" text="Delete" />
                      </children>
                   </HBox>
                </children>
@@ -102,21 +102,21 @@
                </HBox.margin></Button>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="450.0" prefHeight="200.0" prefWidth="450.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Label" />
+                  <Label text="Songs" />
                   <TableView maxHeight="1.7976931348623157E308" maxWidth="450.0" prefHeight="200.0" prefWidth="450.0" VBox.vgrow="ALWAYS">
                     <columns>
-                      <TableColumn minWidth="150.0" prefWidth="150.0" text="C1" />
-                      <TableColumn minWidth="150.0" prefWidth="150.0" text="C2" />
-                        <TableColumn minWidth="75.0" prefWidth="75.0" text="C3" />
-                        <TableColumn minWidth="75.0" prefWidth="75.0" text="C4" />
+                      <TableColumn minWidth="150.0" prefWidth="150.0" text="Title" />
+                      <TableColumn minWidth="150.0" prefWidth="150.0" text="Artist" />
+                        <TableColumn minWidth="75.0" prefWidth="75.0" text="Category" />
+                        <TableColumn minWidth="75.0" prefWidth="75.0" text="Time" />
                     </columns>
                   </TableView>
                   <HBox maxHeight="30.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" text="New.." />
+                        <Button mnemonicParsing="false" text="Edit" />
+                        <Button mnemonicParsing="false" text="Edit" />
+                        <Button mnemonicParsing="false" text="Close" />
                      </children>
                   </HBox>
                </children>

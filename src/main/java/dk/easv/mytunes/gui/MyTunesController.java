@@ -39,4 +39,15 @@ public class MyTunesController {
     public void sliderOnMouseDrag(MouseEvent mouseEvent) {
         musicFunctions.setVolume(sliderVolume.getValue());
     }
+
+    public void btnBckOnClick(ActionEvent actionEvent) {
+        /**
+         * !!!!!!TODO!!!!!!!!!
+         * First click restarts the music
+         * and the second one goes back one track
+         * if there is none then nothing happens or goes the last element of the playlist
+         */
+        musicFunctions.restartMusic();
+
+    }
 }
