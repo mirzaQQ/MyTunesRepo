@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b472c805-ac21-45c5-810f-dc78ae98325d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dk/easv/mytunes/gui/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dk/easv/mytunes/gui/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/gui/MyTunesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/gui/HelloController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763979050585</updated>
-      <workItem from="1763979051852" duration="6621000" />
+      <workItem from="1763979051852" duration="6926000" />
     </task>
     <servers />
   </component>
