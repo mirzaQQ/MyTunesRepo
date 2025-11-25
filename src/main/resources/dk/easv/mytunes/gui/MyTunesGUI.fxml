@@ -40,7 +40,8 @@
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="86.0" prefWidth="397.0">
                <children>
                   <Label text="(none)" />
-                  <Label text=" ... Is playing" />
+                  <Label text=" ... Is playing " />
+                  <Label text="&quot;inserttime&quot;" />
                </children>
             </HBox>
             <HBox alignment="TOP_RIGHT">
