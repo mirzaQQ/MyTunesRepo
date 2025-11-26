@@ -17,7 +17,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="38.0" prefWidth="320.0">
+            <TextField fx:id="txtPlaylist" prefHeight="38.0" prefWidth="320.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -29,7 +29,7 @@
       </HBox>
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <Button mnemonicParsing="false" text="Cancel">
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#btnCloseOnClick" text="Cancel">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
@@ -37,7 +37,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="Save">
+            <Button mnemonicParsing="false" onAction="#btnSaveOnClick" text="Save">
                <HBox.margin>
                   <Insets left="20.0" right="6.0" />
                </HBox.margin>

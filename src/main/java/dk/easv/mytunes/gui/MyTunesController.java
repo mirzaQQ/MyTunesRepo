@@ -66,7 +66,7 @@ public class MyTunesController {
         Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.setTitle("FXML Window");
+        stage.setTitle("Add song");
         stage.setResizable(false);
         stage.show();
         //System.out.println("hello");
@@ -75,5 +75,15 @@ public class MyTunesController {
     public void btnCloseClick(ActionEvent actionEvent) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Add playlist");
+        stage.setResizable(false);
+        stage.show();
+
     }
 }

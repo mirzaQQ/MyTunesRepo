@@ -70,7 +70,7 @@
                   </TableView>
                   <HBox maxHeight="30.0" maxWidth="240.0" prefHeight="30.0" prefWidth="240.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="New..">
+                        <Button mnemonicParsing="false" onAction="#btnNewPlaylistOnClick" text="New..">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
