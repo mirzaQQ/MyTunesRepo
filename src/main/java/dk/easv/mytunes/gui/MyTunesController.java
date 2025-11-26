@@ -64,6 +64,7 @@ public class MyTunesController {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("FXML Window");
+        stage.setResizable(false);
         stage.show();
         //System.out.println("hello");
     }
