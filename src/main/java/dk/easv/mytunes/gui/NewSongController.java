@@ -18,15 +18,21 @@ public class NewSongController implements Initializable {
 
     @FXML
     private ComboBox category;
-
+    private ObservableList<MenuItem> categories =  FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<MenuItem> categories =  FXCollections.observableArrayList();
+
         categories.add(new  MenuItem("Pop"));
         categories.add(new  MenuItem("Rock"));
         categories.add(new  MenuItem("Jazz"));
 
-        category.setItems(categories);
+        //category.setItems(categories);
+        for(MenuItem item : categories){
+            
+            category.getItems().add(item.getText());
+        }
+
     }
+
 }
