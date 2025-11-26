@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.DragEvent;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MyTunesController {
+    @FXML
+    private Button closeButton;
     @FXML
     private Label lblName;
     @FXML
@@ -67,5 +70,10 @@ public class MyTunesController {
         stage.setResizable(false);
         stage.show();
         //System.out.println("hello");
+    }
+
+    public void btnCloseClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 }

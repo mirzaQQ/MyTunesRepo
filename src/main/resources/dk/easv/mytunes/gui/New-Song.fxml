@@ -72,14 +72,14 @@
                <children>
                   <HBox>
                      <children>
-                        <TextField prefWidth="360.0">
+                        <TextField fx:id="txtTitle" prefWidth="360.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
                      </children>
                   </HBox>
-                  <TextField maxWidth="-Infinity" prefWidth="360.0">
+                  <TextField fx:id="txtArtist" maxWidth="-Infinity" prefWidth="360.0">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -102,7 +102,7 @@
                               <Font size="15.0" />
                            </font>
                         </Button>
-                        <TextField fx:id="txtMore" onKeyPressed="#txtEnterPressed" prefHeight="26.0" prefWidth="118.0" visible="false">
+                        <TextField fx:id="txtMore" onKeyPressed="#txtEnterPressed" prefHeight="26.0" prefWidth="118.0" promptText="Press Enter To Add" visible="false">
                            <HBox.margin>
                               <Insets left="20.0" top="20.0" />
                            </HBox.margin>
@@ -112,14 +112,14 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <TextField alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="105.0">
+                  <TextField fx:id="txtTime" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="105.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
                   <HBox>
                      <children>
-                        <TextField prefHeight="30.0" prefWidth="262.0">
+                        <TextField fx:id="txtFile" prefHeight="30.0" prefWidth="262.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -127,7 +127,7 @@
                               <Insets top="17.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Choose...">
+                        <Button mnemonicParsing="false" onAction="#btnChooseOnClick" text="Choose...">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -143,7 +143,12 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT">
          <children>
-            <Button mnemonicParsing="false" text="Cancel">
+            <Label fx:id="lblExist" visible="false">
+               <HBox.margin>
+                  <Insets right="80.0" />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#btnCancelClick" text="Cancel">
                <HBox.margin>
                   <Insets right="25.0" />
                </HBox.margin>
@@ -151,7 +156,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="Save">
+            <Button mnemonicParsing="false" onAction="#btnSaveOnClick" text="Save">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>

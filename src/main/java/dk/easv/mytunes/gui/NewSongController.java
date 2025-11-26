@@ -1,29 +1,39 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.bll.MusicFunctions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import jdk.jfr.Category;
 
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 
 
 public class NewSongController implements Initializable {
-
+    @FXML
+    private TextField txtTitle;
+    @FXML
+    private TextField txtArtist;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private TextField txtTime;
+    @FXML
+    private TextField txtFile;
+    @FXML
+    private Label lblExist;
     @FXML
     private TextField txtMore;
 
@@ -38,44 +48,67 @@ public class NewSongController implements Initializable {
         categories.add(new  MenuItem("Rock"));
         categories.add(new  MenuItem("Jazz"));
 
-        Dropdownmenu();
+        for(MenuItem item : categories){
 
-
+            category.getItems().add(item.getText());
+        }
     }
 
     public void btnClickedMore(ActionEvent actionEvent) {
         txtMore.setVisible(true);
-
-
     }
 
     public void txtEnterPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             String genre = txtMore.getText();
-            categories.add(new  MenuItem(genre));
-            Dropdownmenu();
-
-
-        }
-
-    }
-    private void Dropdownmenu(){
-        /**
-        ObservableList<MenuItem> results = FXCollections.observableArrayList();
-        Boolean duplicate = false;
-        for (MenuItem item : categories) {
-            for (MenuItem item2 : categories) {
-                if (item.getText().equals(item2.getText())) {}
+            Boolean exist = false;
+            for(MenuItem item : categories){
+                if(item.getText().equals(genre)){
+                    exist = true;
+                }
             }
-        }*/
+            lblExist.setVisible(true);
+            if(!exist){
 
-        for(MenuItem item : categories){
-
-            category.getItems().add(item.getText());
-
-
+                categories.add(new  MenuItem(genre));
+                category.getItems().add(categories.getLast().getText());
+                lblExist.setStyle("-fx-background-color: green");
+                lblExist.setText("Added successfully");
+            }
+            else {
+                lblExist.setStyle("-fx-background-color: red");
+                lblExist.setText("Already exists");
+            }
         }
+    }
+    public void btnChooseOnClick(ActionEvent actionEvent) {
+        /**
+         * parts of this can in bll
+         * new file should be created for this in the bll
+         * that can be used for checking if the user choose a mp3 or wav.
+         */
+        MusicFunctions musicFunctions = new MusicFunctions();
+        File currentFile;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file == null) return;
+        currentFile = file;
+        txtFile.setText(currentFile.getAbsolutePath());
+        txtTime.setText(musicFunctions.getDuration());
 
     }
 
+    public void btnCancelClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    public void btnSaveOnClick(ActionEvent actionEvent) {
+        System.out.println(txtFile.getText());
+        System.out.println(txtTime.getText());
+        System.out.println(category.getValue());
+        System.out.println(txtArtist.getText());
+        System.out.println(txtTitle.getText());
+    }
 }
