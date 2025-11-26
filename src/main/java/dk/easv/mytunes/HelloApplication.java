@@ -12,8 +12,11 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("gui/MyTunesGUI.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        //stage.setTitle("Hello!");
+        stage.setTitle("MyTunes");
         stage.setScene(scene);
+        stage.setResizable(true);
+        stage.setMinWidth(810);
+        stage.setMinHeight(300);
         stage.show();
     }
 }
