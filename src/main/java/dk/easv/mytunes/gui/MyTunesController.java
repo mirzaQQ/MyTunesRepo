@@ -1,13 +1,20 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.HelloApplication;
 import dk.easv.mytunes.bll.*;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MyTunesController {
     @FXML
@@ -49,5 +56,15 @@ public class MyTunesController {
          */
         musicFunctions.restartMusic();
 
+    }
+
+    public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("FXML Window");
+        stage.show();
+        //System.out.println("hello");
     }
 }
