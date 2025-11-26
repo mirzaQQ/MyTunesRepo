@@ -113,7 +113,7 @@
                   </TableView>
                   <HBox maxHeight="30.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="New.." />
+                        <Button mnemonicParsing="false" onAction="#btnNewSongOnClick" text="New.." />
                         <Button mnemonicParsing="false" text="Edit" />
                         <Button mnemonicParsing="false" text="Edit" />
                         <Button mnemonicParsing="false" text="Close" />
