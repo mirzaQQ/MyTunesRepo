@@ -60,16 +60,6 @@ public class MyTunesController {
         musicFunctions.restartMusic();
     }
 
-    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException {
-
-        Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("FXML Window");
-        stage.setResizable(false);
-        stage.show();
-    }
-
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException {
         
         Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
