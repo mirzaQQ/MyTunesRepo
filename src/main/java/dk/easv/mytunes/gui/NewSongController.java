@@ -91,9 +91,14 @@ public class NewSongController implements Initializable {
          * that can be used for checking if the user choose a mp3 or wav.
          */
         currentFile = fileChecker.open();
-        txtFile.setText(currentFile.getAbsolutePath());
-        txtTime.setText(musicFunctions.getDuration());
 
+        txtFile.setText(currentFile.getAbsolutePath());
+        if(fileChecker.checkfile(currentFile)) {
+            txtTime.setText(musicFunctions.getDuration());
+        }
+        else {
+            txtTime.setText("ERROR");
+        }
 
     }
 
@@ -103,21 +108,35 @@ public class NewSongController implements Initializable {
     }
 
     public void btnSaveOnClick(ActionEvent actionEvent) {
-        /**
-        System.out.println(txtFile.getText());
-        System.out.println(txtTime.getText());
-        System.out.println(category.getValue());
-        System.out.println(txtArtist.getText());
-        System.out.println(txtTitle.getText());*/
-        if(currentFile == null){
+        lblExist.setVisible(true);
+        if(!isEmpty()){
             lblExist.setStyle("-fx-background-color: red");
-            lblExist.setText("Please select a file");
-            System.out.println("Please select a file");
+            lblExist.setText("Some fields are empty");
         }
         else {
-            fileChecker.checkfile(currentFile);
-            System.out.println("File successfully checked");
+            if(currentFile == null){
+                lblExist.setStyle("-fx-background-color: red");
+                lblExist.setText("Please select a file");
+            }
+            else {
+                if(!fileChecker.checkfile(currentFile)){
+                    lblExist.setStyle("-fx-background-color: red");
+                    lblExist.setText("Not mp3 or mp4");
+                }
+                else {
+                    lblExist.setStyle("-fx-background-color: green");
+                    lblExist.setText("Saved successfully");
+                }
+            }
         }
 
+    }
+    private boolean isEmpty(){
+        if(txtTitle.getText() == null || txtArtist.getText() == null || txtFile.getText() == null || category.getValue() == null){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }

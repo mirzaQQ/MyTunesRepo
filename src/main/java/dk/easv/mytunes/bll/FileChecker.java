@@ -19,13 +19,21 @@ public class FileChecker {
         }
         return currentFile;
     }
-    public void checkfile(File file){
-
-        System.out.println(file);
-        /**
+    public boolean checkfile(File file){
+        String fileName = file.getName();
         String regex = "[\\\\]";
-        String[] splitedBip = bip.split(regex);
-        String music = splitedBip[splitedBip.length - 1];*/
+        String[] splitedBip = fileName.split(regex);
+        String music = splitedBip[splitedBip.length - 1];
+
+        if(music.contains(".wav") || music.contains(".mp3")){
+            //System.out.println("yesss");
+            return true;
+        }else {
+            //System.out.println("Not mp3 or wav");
+            return false;
+        }
+
+
         //return file.isFile() && file.isFile() && file.canRead();
     }
 }
