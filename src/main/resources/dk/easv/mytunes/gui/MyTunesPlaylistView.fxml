@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="138.0" maxWidth="404.0" prefHeight="138.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.MyTunesPlaylistController">
+<VBox maxHeight="138.0" maxWidth="404.0" prefHeight="138.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.MyTunesPlaylistController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="45.0" maxWidth="400.0" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
@@ -50,5 +50,10 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
+      <Label text="&quot;exception&quot;:" textFill="RED">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" />
+         </VBox.margin>
+      </Label>
    </children>
 </VBox>

@@ -58,7 +58,16 @@ public class MyTunesController {
          * if there is none then nothing happens or goes the last element of the playlist
          */
         musicFunctions.restartMusic();
+    }
 
+    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("FXML Window");
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException {
@@ -69,7 +78,6 @@ public class MyTunesController {
         stage.setTitle("Add song");
         stage.setResizable(false);
         stage.show();
-        //System.out.println("hello");
     }
 
     public void btnCloseClick(ActionEvent actionEvent) {
