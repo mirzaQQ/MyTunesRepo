@@ -1,5 +1,6 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.bll.FileChecker;
 import dk.easv.mytunes.bll.MusicFunctions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,18 +83,14 @@ public class NewSongController implements Initializable {
         }
     }
     public void btnChooseOnClick(ActionEvent actionEvent) {
+        FileChecker fileChecker = new FileChecker();
+        MusicFunctions musicFunctions = new MusicFunctions();
         /**
          * parts of this can in bll
          * new file should be created for this in the bll
          * that can be used for checking if the user choose a mp3 or wav.
          */
-        MusicFunctions musicFunctions = new MusicFunctions();
-        File currentFile;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open File");
-        File file = fileChooser.showOpenDialog(new Stage());
-        if (file == null) return;
-        currentFile = file;
+        File currentFile = fileChecker.open();
         txtFile.setText(currentFile.getAbsolutePath());
         txtTime.setText(musicFunctions.getDuration());
 
