@@ -22,7 +22,7 @@
          <children>
             <AnchorPane>
                <children>
-                  <Button graphicTextGap="1.0" layoutX="68.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#btnPlayOnClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-radius: 100;" styleClass="" text="▶">
+                  <Button fx:id="btnPlay" graphicTextGap="1.0" layoutX="68.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#btnPlayOnClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-radius: 100;" styleClass="" text="▶">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
@@ -129,7 +129,7 @@
                         <TableColumn minWidth="75.0" prefWidth="75.0" text="Time" />
                     </columns>
                   </TableView>
-                  <HBox maxHeight="30.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
+                  <HBox maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="450.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnNewSongOnClick" text="New..">
                            <HBox.margin>
@@ -143,9 +143,10 @@
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                         <Button fx:id="closeButton" mnemonicParsing="false" onAction="#btnCloseClick" text="Close">
                            <HBox.margin>
-                              <Insets right="10.0" top="5.0" />
+                              <Insets top="5.0" />
                            </HBox.margin></Button>
                      </children>
                   </HBox>

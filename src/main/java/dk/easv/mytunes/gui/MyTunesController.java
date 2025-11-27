@@ -13,6 +13,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.io.IOException;
 public class MyTunesController {
     @FXML
     private Button closeButton;
+    @FXML
+    private Button btnPlay;
     @FXML
     private Label lblName;
     @FXML
@@ -34,10 +37,12 @@ public class MyTunesController {
 
         if (musicFunctions.getStatus().equals("PLAYING")) {
             musicFunctions.pauseMusic();
-
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
         } else {
             musicFunctions.playMusic();
-
+            btnPlay.setText("⏸");
+            btnPlay.setFont(new Font(20));
         }
     }
 
