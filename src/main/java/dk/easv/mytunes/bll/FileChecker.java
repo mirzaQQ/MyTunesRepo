@@ -16,9 +16,16 @@ public class FileChecker {
         }
         else  {
             currentFile = file;
-
         }
         return currentFile;
+    }
+    public void checkfile(File file){
 
+        System.out.println(file);
+        /**
+        String regex = "[\\\\]";
+        String[] splitedBip = bip.split(regex);
+        String music = splitedBip[splitedBip.length - 1];*/
+        //return file.isFile() && file.isFile() && file.canRead();
     }
 }

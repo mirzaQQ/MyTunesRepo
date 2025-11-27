@@ -37,11 +37,11 @@ public class NewSongController implements Initializable {
     private Label lblExist;
     @FXML
     private TextField txtMore;
-
+    private File currentFile;
     @FXML
     private ComboBox category;
     private ObservableList<MenuItem> categories =  FXCollections.observableArrayList();
-
+    FileChecker fileChecker = new FileChecker();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -83,16 +83,17 @@ public class NewSongController implements Initializable {
         }
     }
     public void btnChooseOnClick(ActionEvent actionEvent) {
-        FileChecker fileChecker = new FileChecker();
+
         MusicFunctions musicFunctions = new MusicFunctions();
         /**
          * parts of this can in bll
          * new file should be created for this in the bll
          * that can be used for checking if the user choose a mp3 or wav.
          */
-        File currentFile = fileChecker.open();
+        currentFile = fileChecker.open();
         txtFile.setText(currentFile.getAbsolutePath());
         txtTime.setText(musicFunctions.getDuration());
+
 
     }
 
@@ -102,10 +103,21 @@ public class NewSongController implements Initializable {
     }
 
     public void btnSaveOnClick(ActionEvent actionEvent) {
+        /**
         System.out.println(txtFile.getText());
         System.out.println(txtTime.getText());
         System.out.println(category.getValue());
         System.out.println(txtArtist.getText());
-        System.out.println(txtTitle.getText());
+        System.out.println(txtTitle.getText());*/
+        if(currentFile == null){
+            lblExist.setStyle("-fx-background-color: red");
+            lblExist.setText("Please select a file");
+            System.out.println("Please select a file");
+        }
+        else {
+            fileChecker.checkfile(currentFile);
+            System.out.println("File successfully checked");
+        }
+
     }
 }
