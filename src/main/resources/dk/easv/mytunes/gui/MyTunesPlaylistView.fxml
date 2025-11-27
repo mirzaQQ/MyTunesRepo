@@ -50,7 +50,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <Label text="&quot;exception&quot;:" textFill="RED">
+      <Label fx:id="lblExcpetion" text="&quot;exception&quot;:" textFill="RED" visible="false">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" />
          </VBox.margin>

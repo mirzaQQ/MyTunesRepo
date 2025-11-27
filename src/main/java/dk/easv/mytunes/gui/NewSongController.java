@@ -108,6 +108,7 @@ public class NewSongController implements Initializable {
     }
 
     public void btnSaveOnClick(ActionEvent actionEvent) {
+
         lblExist.setVisible(true);
         if(!isEmpty()){
             lblExist.setStyle("-fx-background-color: red");
@@ -132,10 +133,15 @@ public class NewSongController implements Initializable {
 
     }
     private boolean isEmpty(){
+        String text = txtTitle.getText().trim();
+       String artist = txtArtist.getText().trim();
         if(txtTitle.getText() == null || txtArtist.getText() == null || txtFile.getText() == null || category.getValue() == null){
             return false;
         }
         else{
+            if(text.isEmpty() || artist.isEmpty()){
+                return false;
+            }
             return true;
         }
     }
