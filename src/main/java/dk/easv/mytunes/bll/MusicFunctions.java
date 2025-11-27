@@ -53,8 +53,14 @@ public class MusicFunctions {
     }
 
     public void restartMusic() {
-        mediaPlayer.stop();
-        mediaPlayer.play();
+        if (mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer.play();
+        }
+        else{
+            mediaPlayer.stop();
+        }
+
     }
 
 }
