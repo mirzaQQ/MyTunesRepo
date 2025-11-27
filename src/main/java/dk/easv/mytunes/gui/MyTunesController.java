@@ -84,4 +84,31 @@ public class MyTunesController {
         stage.show();
 
     }
+
+    public void btnDeletePlaylistOnClick (ActionEvent actionEvent) {
+    }
+
+    public void btnFilterOnClick(ActionEvent actionEvent) {
+    }
+
+    public void btnEditPlaylistOnClick(ActionEvent actionEvent) {
+    }
+
+    public void BtnMoveSongUpOnClick(ActionEvent actionEvent) {
+    }
+
+    public void BtnMoveSongDownOnClick(ActionEvent actionEvent) {
+    }
+
+    public void BtnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {
+    }
+
+    public void btnMoveSongToPlaylistOnClick(ActionEvent actionEvent) {
+    }
+
+    public void BtnEditSongOnClick(ActionEvent actionEvent) {
+    }
+
+    public void BtnDeleteSongOnClick(ActionEvent actionEvent) {
+    }
 }
