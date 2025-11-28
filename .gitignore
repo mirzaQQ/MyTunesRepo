@@ -6,6 +6,7 @@ target/
 *.mp3
 *.mp4
 *.wav
+ConnectionManager.java
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
