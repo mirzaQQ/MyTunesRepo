@@ -12,7 +12,7 @@ public class Songs {
         this.Title = Title;
         this.Artist = Artist;
         this.Category = Category;
-        this.time = column_name;
+        this.time = time;
         this.Filepath = Filepath;
         this.Song_id = Song_id;
 
