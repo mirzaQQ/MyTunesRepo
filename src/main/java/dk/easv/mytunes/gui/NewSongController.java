@@ -110,7 +110,7 @@ public class NewSongController implements Initializable {
         stage.close();
     }
 
-    public void btnSaveOnClick(ActionEvent actionEvent) {
+    public void btnSaveOnClick(ActionEvent actionEvent) throws SQLException {
 
         lblExist.setVisible(true);
         if(!isEmpty()){
@@ -130,6 +130,8 @@ public class NewSongController implements Initializable {
                 else {
                     lblExist.setStyle("-fx-background-color: green");
                     lblExist.setText("Saved successfully");
+                    String categoryString = category.getValue().toString();
+                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, txtFile.getText());
                 }
             }
         }

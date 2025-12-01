@@ -2,6 +2,7 @@ package dk.easv.mytunes.dal;
 
 import dk.easv.mytunes.be.Songs;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import dk.easv.mytunes.bll.Logic;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,5 +33,26 @@ public class SongsDAO {
             throw e;
         }
         return songs;
+    }
+    public void insertSongs(String title, String artist,String time,String category, String file) throws SQLException {
+        Logic logic = new Logic();
+        try (Connection con = conMan.getConnection()) {
+            String sql = "INSERT INTO Songs (Title, Artist, Category, Time ,Filepath) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1,title);
+            stmt.setString(2, artist);
+            stmt.setInt(3,3);
+            stmt.setString(4,time);
+            stmt.setString(5,file);
+
+            int rowsAffected = stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        
     }
 }

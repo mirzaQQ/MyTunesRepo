@@ -15,6 +15,11 @@ public class Logic {
    public List<Songs> getAllSongsFromDB() throws SQLException {
        return songsDAO.getSongs();
    }
+    public void getInfo(String title, String artist, String time,String category, String file) throws SQLException{
+
+        songsDAO.insertSongs(title, artist, time, category, file);
+
+    }
 
    public List<Category> getAllCategoryFromDB() throws SQLException {
        return categoriesDAO.getCategories();
