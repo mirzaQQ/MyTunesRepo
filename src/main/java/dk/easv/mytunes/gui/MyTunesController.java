@@ -1,6 +1,5 @@
 package dk.easv.mytunes.gui;
 
-import dk.easv.mytunes.HelloApplication;
 import dk.easv.mytunes.bll.*;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -10,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -44,6 +41,10 @@ public class MyTunesController {
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
         }
+    }
+
+    public void initialize() {
+
     }
 
     public void sliderOnClick(MouseEvent mouseEvent) {

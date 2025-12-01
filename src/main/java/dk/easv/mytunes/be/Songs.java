@@ -8,11 +8,11 @@ public class Songs {
     private String Filepath;
     private int Song_id;
 
-    public Songs(String Title, String Artist, int Category, String time, String Filepath,  int Song_id) {
+    public Songs(String Title, String Artist, int Category, String Time, String Filepath, int Song_id) {
         this.Title = Title;
         this.Artist = Artist;
         this.Category = Category;
-        this.time = time;
+        this.time = Time;
         this.Filepath = Filepath;
         this.Song_id = Song_id;
 
