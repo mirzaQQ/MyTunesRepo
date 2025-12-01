@@ -13,14 +13,14 @@ public class SongsDAO {
     public List<Songs> getSongs() throws SQLException {
         List<Songs> songs = new ArrayList<>();
         try (Connection con = conMan.getConnection()) {
-            String sql = "SELECT * FROM Songs";
+            String sql = "SELECT Song_id, Title, Artist, C.Name AS 'Category', Time, Filepath FROM Songs JOIN dbo.Category C on C.Category_id = Category";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int id = rs.getInt("Song_id");
                 String title = rs.getString("Title");
                 String artist = rs.getString("Artist");
-                int category = rs.getInt("Category");
+                String category = rs.getString("Category");
                 String time = rs.getString("Time");
                 String filepath = rs.getString("Filepath");
 

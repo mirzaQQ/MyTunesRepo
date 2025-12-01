@@ -1,6 +1,8 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.be.Category;
 import dk.easv.mytunes.bll.FileChecker;
+import dk.easv.mytunes.bll.Logic;
 import dk.easv.mytunes.bll.MusicFunctions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,16 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.jfr.Category;
 
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 
 
 public class NewSongController implements Initializable {
@@ -39,20 +37,30 @@ public class NewSongController implements Initializable {
     private TextField txtMore;
     private File currentFile;
     @FXML
-    private ComboBox category;
-    private ObservableList<MenuItem> categories =  FXCollections.observableArrayList();
+    private ComboBox<String> category;
+    private final ObservableList<String> categoriesObservableList = FXCollections.observableArrayList();
     FileChecker fileChecker = new FileChecker();
+    Logic logic = new Logic();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        categories.add(new  MenuItem("Pop"));
-        categories.add(new  MenuItem("Rock"));
-        categories.add(new  MenuItem("Jazz"));
-
-        for(MenuItem item : categories){
-
-            category.getItems().add(item.getText());
+        try {
+            List<Category> categories = logic.getAllCategoryFromDB();
+            for(Category cat : categories){
+                categoriesObservableList.add(cat.getName());
+            }
+            category.setItems(categoriesObservableList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+//        categoriesObservableList.add(new  MenuItem("Pop"));
+//        categoriesObservableList.add(new  MenuItem("Rock"));
+//        categoriesObservableList.add(new  MenuItem("Jazz"));
+//
+//        for(MenuItem item : categoriesObservableList){
+//
+//            category.getItems().add(item.getText());
+//        }
     }
 
     public void btnClickedMore(ActionEvent actionEvent) {
@@ -63,16 +71,11 @@ public class NewSongController implements Initializable {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             String genre = txtMore.getText();
             Boolean exist = false;
-            for(MenuItem item : categories){
-                if(item.getText().equals(genre)){
-                    exist = true;
-                }
-            }
+
             lblExist.setVisible(true);
             if(!exist){
 
-                categories.add(new  MenuItem(genre));
-                category.getItems().add(categories.getLast().getText());
+                categoriesObservableList.add(genre);
                 lblExist.setStyle("-fx-background-color: green");
                 lblExist.setText("Added successfully");
             }

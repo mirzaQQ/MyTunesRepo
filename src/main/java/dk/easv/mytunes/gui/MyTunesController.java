@@ -44,20 +44,6 @@ public class MyTunesController {
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
 
     MusicFunctions musicFunctions = new MusicFunctions();
-    public void btnPlayOnClick(ActionEvent actionEvent) {
-        lblDuration.setText(musicFunctions.getDuration());
-        lblName.setText(musicFunctions.getMusic());
-
-        if (musicFunctions.getStatus().equals("PLAYING")) {
-            musicFunctions.pauseMusic();
-            btnPlay.setText("▶");
-            btnPlay.setFont(new Font(24));
-        } else {
-            musicFunctions.playMusic();
-            btnPlay.setText("⏸");
-            btnPlay.setFont(new Font(20));
-        }
-    }
 
     public void initialize() {
         tableSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -74,6 +60,23 @@ public class MyTunesController {
             throw new RuntimeException(e);
         }
     }
+
+    public void btnPlayOnClick(ActionEvent actionEvent) {
+        lblDuration.setText(musicFunctions.getDuration());
+        lblName.setText(musicFunctions.getMusic());
+
+        if (musicFunctions.getStatus().equals("PLAYING")) {
+            musicFunctions.pauseMusic();
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
+        } else {
+            musicFunctions.playMusic();
+            btnPlay.setText("⏸");
+            btnPlay.setFont(new Font(20));
+        }
+    }
+
+
 
     public void sliderOnClick(MouseEvent mouseEvent) {
 
