@@ -1,19 +1,22 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.bll.*;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 public class MyTunesController {
     @FXML
@@ -26,6 +29,19 @@ public class MyTunesController {
     private Label lblDuration;
     @FXML
     private Slider sliderVolume;
+    @FXML
+    private TableView<Songs> tableSongs;
+    @FXML
+    private TableColumn<Songs, String> tableSongsTitle;
+    @FXML
+    private TableColumn<Songs, String> tableSongsArtist;
+    @FXML
+    private TableColumn<Songs, Integer> tableSongsCategory;
+    @FXML
+    private TableColumn<Songs, String> tableSongsTime;
+
+    private final Logic logic = new Logic();
+    private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
 
     MusicFunctions musicFunctions = new MusicFunctions();
     public void btnPlayOnClick(ActionEvent actionEvent) {
@@ -44,7 +60,19 @@ public class MyTunesController {
     }
 
     public void initialize() {
+        tableSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tableSongsArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        tableSongsCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        tableSongsTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+        try {
+            List<Songs> songs = logic.getAllSongsFromDB();
+            songsObservableList.addAll(songs);
+            tableSongs.setItems(songsObservableList);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void sliderOnClick(MouseEvent mouseEvent) {

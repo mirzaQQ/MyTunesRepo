@@ -1,7 +1,15 @@
 package dk.easv.mytunes.bll;
 
+import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.dal.SongsDAO;
 
-public class Logic {
+import java.sql.SQLException;
+import java.util.List;
 
+public class Logic {
+   SongsDAO songsDAO = new SongsDAO();
+
+   public List<Songs> getAllSongsFromDB() throws SQLException {
+       return songsDAO.getSongs();
+   }
 }
