@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b472c805-ac21-45c5-810f-dc78ae98325d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/PlaylistSong.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Playlists.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Songs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/PlaylistSong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/PlaylistSong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Playlists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Playlists.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Songs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/easv/mytunes/be/Songs.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +125,8 @@
       <workItem from="1764185201278" duration="788000" />
       <workItem from="1764186016401" duration="659000" />
       <workItem from="1764235725407" duration="8370000" />
-      <workItem from="1764280851836" duration="4751000" />
+      <workItem from="1764280851836" duration="6613000" />
+      <workItem from="1764582476869" duration="1341000" />
     </task>
     <servers />
   </component>
