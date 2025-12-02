@@ -148,6 +148,7 @@ public class MyTunesController {
     public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
         /*
+        ToDo
         Ask user if he want to delete song
          */
         if (selectedSong != null) {
