@@ -156,7 +156,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#btnSaveOnClick" text="Save">
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#btnSaveOnClick" text="Save">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>

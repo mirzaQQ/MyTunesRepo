@@ -28,6 +28,8 @@ public class NewSongController implements Initializable {
     @FXML
     private Button cancelButton;
     @FXML
+    private Button saveButton;
+    @FXML
     private TextField txtTime;
     @FXML
     private TextField txtFile;
@@ -65,7 +67,6 @@ public class NewSongController implements Initializable {
             String genre = txtMore.getText();
             Boolean exist = false;
 
-
             lblExist.setVisible(true);
             if (!exist) {
 
@@ -73,15 +74,13 @@ public class NewSongController implements Initializable {
                 lblExist.setStyle("-fx-background-color: green");
                 lblExist.setText("Added successfully");
                 category.setValue(genre);
-
-
-            } else {
+            }
+            else {
                 lblExist.setStyle("-fx-background-color: red");
                 lblExist.setText("Already exists");
             }
             logic.addCategory(category.getValue().toString());
         }
-
     }
     public void btnChooseOnClick(ActionEvent actionEvent) {
 
@@ -128,8 +127,10 @@ public class NewSongController implements Initializable {
                 else {
                     lblExist.setStyle("-fx-background-color: green");
                     lblExist.setText("Saved successfully");
-                    //String categoryString = category.getValue().toString();
-                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), category.getValue().toString(), txtFile.getText());
+                    String categoryString = category.getValue().toString();
+                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, txtFile.getText());
+                    Stage stage = (Stage) saveButton.getScene().getWindow();
+                    stage.close();
                 }
             }
         }

@@ -60,6 +60,11 @@ public class MyTunesController {
             throw new RuntimeException(e);
         }
     }
+    public void updateSongTable() throws SQLException {
+        songsObservableList.clear();
+        List<Songs> songs = logic.getAllSongsFromDB();
+        songsObservableList.addAll(songs);
+    }
 
     public void btnPlayOnClick(ActionEvent actionEvent) {
         lblDuration.setText(musicFunctions.getDuration());
@@ -75,8 +80,6 @@ public class MyTunesController {
             btnPlay.setFont(new Font(20));
         }
     }
-
-
 
     public void sliderOnClick(MouseEvent mouseEvent) {
         musicFunctions.setVolume(sliderVolume.getValue());
@@ -96,14 +99,15 @@ public class MyTunesController {
         musicFunctions.restartMusic();
     }
 
-    public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException {
+    public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
         
         Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Add song");
         stage.setResizable(false);
-        stage.show();
+        stage.showAndWait();
+        updateSongTable();
     }
 
     public void btnCloseClick(ActionEvent actionEvent) {
