@@ -53,6 +53,8 @@ public class SongsDAO {
             stmt.setString(4,time);
             stmt.setString(5,file);
             stmt.executeUpdate();
+            stmt.close();
+            con.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

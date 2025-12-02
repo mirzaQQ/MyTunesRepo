@@ -27,4 +27,8 @@ public class Logic {
    public List<Category> getAllCategoryFromDB() throws SQLException {
        return categoriesDAO.getCategories();
    }
+   public void addCategory(String category) throws SQLException {
+       CategoriesDAO categoriesDAO = new CategoriesDAO();
+       categoriesDAO.addCategory(category);
+   }
 }

@@ -26,4 +26,16 @@ public class CategoriesDAO {
         }
         return categories;
     }
+
+    public void addCategory(String category) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            Statement stmt = con.createStatement();
+            String sql = "INSERT INTO Category (Name) VALUES (?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, category);
+            ps.executeUpdate();
+            ps.close();
+            con.close();
+        }
+    }
 }

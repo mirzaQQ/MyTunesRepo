@@ -59,23 +59,29 @@ public class NewSongController implements Initializable {
         txtMore.setVisible(true);
     }
 
-    public void txtEnterPressed(KeyEvent keyEvent) {
+    public void txtEnterPressed(KeyEvent keyEvent) throws SQLException {
+
         if (keyEvent.getCode() == KeyCode.ENTER) {
             String genre = txtMore.getText();
             Boolean exist = false;
 
+
             lblExist.setVisible(true);
-            if(!exist){
+            if (!exist) {
 
                 categoriesObservableList.add(genre);
                 lblExist.setStyle("-fx-background-color: green");
                 lblExist.setText("Added successfully");
-            }
-            else {
+                category.setValue(genre);
+
+
+            } else {
                 lblExist.setStyle("-fx-background-color: red");
                 lblExist.setText("Already exists");
             }
+            logic.addCategory(category.getValue().toString());
         }
+
     }
     public void btnChooseOnClick(ActionEvent actionEvent) {
 
@@ -122,8 +128,8 @@ public class NewSongController implements Initializable {
                 else {
                     lblExist.setStyle("-fx-background-color: green");
                     lblExist.setText("Saved successfully");
-                    String categoryString = category.getValue().toString();
-                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, txtFile.getText());
+                    //String categoryString = category.getValue().toString();
+                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), category.getValue().toString(), txtFile.getText());
                 }
             }
         }
