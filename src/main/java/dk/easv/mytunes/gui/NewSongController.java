@@ -53,14 +53,6 @@ public class NewSongController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        categoriesObservableList.add(new  MenuItem("Pop"));
-//        categoriesObservableList.add(new  MenuItem("Rock"));
-//        categoriesObservableList.add(new  MenuItem("Jazz"));
-//
-//        for(MenuItem item : categoriesObservableList){
-//
-//            category.getItems().add(item.getText());
-//        }
     }
 
     public void btnClickedMore(ActionEvent actionEvent) {

@@ -37,11 +37,18 @@ public class SongsDAO {
     public void insertSongs(String title, String artist,String time,String category, String file) throws SQLException {
         Logic logic = new Logic();
         try (Connection con = conMan.getConnection()) {
+            String sql_categID = "SELECT Category_id FROM Category WHERE Name = ?";
+            PreparedStatement stmtid = con.prepareStatement(sql_categID);
+            stmtid.setString(1, category);
+            ResultSet rs = stmtid.executeQuery();
+            String rsString = rs.toString();
+            int id = Integer.parseInt(rsString.split(":")[1]);
+            stmtid.close();
             String sql = "INSERT INTO Songs (Title, Artist, Category, Time ,Filepath) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1,title);
             stmt.setString(2, artist);
-            stmt.setInt(3,3);
+            stmt.setInt(3,id);
             stmt.setString(4,time);
             stmt.setString(5,file);
 
@@ -53,6 +60,6 @@ public class SongsDAO {
             e.printStackTrace();
             throw e;
         }
-        
+
     }
 }
