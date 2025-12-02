@@ -20,6 +20,9 @@ public class Logic {
         songsDAO.insertSongs(title, artist, time, category, file);
 
     }
+    public void deleteSongFromDB(int id) throws SQLException {
+        songsDAO.deleteSong(id);
+    }
 
    public List<Category> getAllCategoryFromDB() throws SQLException {
        return categoriesDAO.getCategories();

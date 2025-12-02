@@ -112,7 +112,7 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <TextField fx:id="txtTime" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="105.0">
+                  <TextField fx:id="txtTime" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.99" prefHeight="26.0" prefWidth="105.0">
                      <font>
                         <Font size="14.0" />
                      </font>

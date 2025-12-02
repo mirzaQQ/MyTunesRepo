@@ -79,7 +79,6 @@ public class MyTunesController {
 
 
     public void sliderOnClick(MouseEvent mouseEvent) {
-
         musicFunctions.setVolume(sliderVolume.getValue());
     }
 
@@ -146,6 +145,20 @@ public class MyTunesController {
     public void BtnEditSongOnClick(ActionEvent actionEvent) {
     }
 
-    public void BtnDeleteSongOnClick(ActionEvent actionEvent) {
+    public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
+        Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        /*
+        Ask user if he want to delete song
+         */
+        if (selectedSong != null) {
+            logic.deleteSongFromDB(selectedSong.getSong_id());
+            songsObservableList.remove(selectedSong);
+        }
+        else {
+            /*
+            ToDo
+            Implement label that will informs user if no song is selected for deletion
+             */
+        }
     }
 }
