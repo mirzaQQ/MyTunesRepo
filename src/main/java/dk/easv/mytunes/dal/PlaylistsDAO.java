@@ -40,10 +40,23 @@ public class PlaylistsDAO {
             stmt.setInt(2, 0);
             stmt.setString(3, "0:00");
             stmt.executeUpdate();
+            stmt.close();
+            con.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
             throw e;
+        }
+    }
+    public void deletePlaylist(int playlist) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            String sql = "DELETE FROM Playlists WHERE Playlist_id = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, playlist);
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
         }
     }
 }

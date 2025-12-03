@@ -152,7 +152,11 @@ public class MyTunesController {
         updatePlaylistTable();
     }
 
-    public void btnDeletePlaylistOnClick (ActionEvent actionEvent) {
+    public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
+        Playlists playlist = tablePlaylist.getSelectionModel().getSelectedItem();
+        logic.deletePlaylistFromDB(playlist.getPlaylist_id());
+
+
     }
 
     public void btnFilterOnClick(ActionEvent actionEvent) {

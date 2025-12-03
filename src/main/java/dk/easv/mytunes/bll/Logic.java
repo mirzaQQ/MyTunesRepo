@@ -34,6 +34,11 @@ public class Logic {
    public void addPlaylist(String playlist) throws SQLException {
        playlistsDAO.addPlaylist(playlist);
    }
+   public void deletePlaylistFromDB(int playlist) throws SQLException {
+      
+
+       playlistsDAO.deletePlaylist(playlist);
+   }
    public List<Playlists> getAllPlaylistsFromDB() throws SQLException {
        return playlistsDAO.getPlaylists();
    }
