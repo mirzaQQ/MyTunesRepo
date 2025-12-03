@@ -127,7 +127,6 @@ public class MyTunesController {
     }
 
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
-        
         Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -153,10 +152,21 @@ public class MyTunesController {
     }
 
     public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
-        Playlists playlist = tablePlaylist.getSelectionModel().getSelectedItem();
-        logic.deletePlaylistFromDB(playlist.getPlaylist_id());
-
-
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+        /*
+        ToDo
+        Ask user if he wants to delete playlist
+         */
+        if (selectedPlaylist != null) {
+            logic.deletePlaylistFromDB(selectedPlaylist.getPlaylist_id());
+            playlistsObservableList.remove(selectedPlaylist);
+        }
+        else {
+            /*
+            ToDo
+            Implement label that will informs user if no playlist is selected for deletion
+             */
+        }
     }
 
     public void btnFilterOnClick(ActionEvent actionEvent) {
@@ -184,7 +194,7 @@ public class MyTunesController {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
         /*
         ToDo
-        Ask user if he want to delete song
+        Ask user if he wants to delete song
          */
         if (selectedSong != null) {
             logic.deleteSongFromDB(selectedSong.getSong_id());

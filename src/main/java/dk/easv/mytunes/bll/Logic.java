@@ -42,4 +42,8 @@ public class Logic {
    public List<Playlists> getAllPlaylistsFromDB() throws SQLException {
        return playlistsDAO.getPlaylists();
    }
+   public boolean checkIfPlaylistExists(String playlistName) throws SQLException {
+       List<Playlists> playlists = getAllPlaylistsFromDB();
+       return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));
+   }
 }

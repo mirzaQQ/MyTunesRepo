@@ -68,7 +68,7 @@
                     <columns>
                       <TableColumn fx:id="tablePlaylistName" maxWidth="120.0" prefWidth="120.0" text="Name" />
                       <TableColumn fx:id="tablePlaylistSongs" maxWidth="70.0" prefWidth="70.0" text="Songs" />
-                        <TableColumn fx:id="tablePlaylistTime" maxWidth="70.0" prefWidth="69.0" text="Time" />
+                        <TableColumn fx:id="tablePlaylistTime" maxWidth="68.0" prefWidth="68.0" text="Time" />
                     </columns>
                   </TableView>
                   <HBox maxHeight="30.0" maxWidth="240.0" prefHeight="30.0" prefWidth="240.0" VBox.vgrow="ALWAYS">

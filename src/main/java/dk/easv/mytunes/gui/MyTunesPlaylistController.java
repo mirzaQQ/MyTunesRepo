@@ -30,9 +30,15 @@ public class MyTunesPlaylistController {
             lblException.setStyle("-fx-border-color: red; -fx-border-radius: 5px;");
             lblException.setText(" \"Name\" field is empty ");
         }
+        else if (logic.checkIfPlaylistExists(trimmedPlaylist)) {
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Playlist already exists ");
+        }
         else {
-            //System.out.println(txtPlaylist.getText());
             logic.addPlaylist(txtPlaylist.getText());
+            Stage stage = (Stage) closeButton.getScene().getWindow();
+            stage.close();
         }
     }
 }

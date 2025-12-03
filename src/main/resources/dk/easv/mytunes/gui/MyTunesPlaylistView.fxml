@@ -29,7 +29,7 @@
       </HBox>
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <Label fx:id="lblException" maxWidth="214.0" prefHeight="27.0" prefWidth="214.0" text="&quot;exception&quot;:" textFill="RED" visible="false">
+            <Label fx:id="lblException" maxWidth="214.0" text="&quot;exception&quot;:" textFill="RED" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
