@@ -1,5 +1,6 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.be.Playlists;
 import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.bll.*;
 import javafx.fxml.FXML;
@@ -39,10 +40,18 @@ public class MyTunesController {
     private TableColumn<Songs, Integer> tableSongsCategory;
     @FXML
     private TableColumn<Songs, String> tableSongsTime;
+    @FXML
+    private TableView<Playlists> tablePlaylist;
+    @FXML
+    private TableColumn<Playlists, String> tablePlaylistName;
+    @FXML
+    private TableColumn<Playlists, Integer> tablePlaylistSongs;
+    @FXML
+    private TableColumn<Playlists, String> tablePlaylistTime;
 
     private final Logic logic = new Logic();
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
-
+    private final ObservableList<Playlists> playlistsObservableList = FXCollections.observableArrayList();
     MusicFunctions musicFunctions = new MusicFunctions();
 
     public void initialize() {
@@ -55,15 +64,33 @@ public class MyTunesController {
             List<Songs> songs = logic.getAllSongsFromDB();
             songsObservableList.addAll(songs);
             tableSongs.setItems(songsObservableList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+        tablePlaylistName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tablePlaylistSongs.setCellValueFactory(new PropertyValueFactory<>("songsNumber"));
+        tablePlaylistTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
+
+        try {
+            List<Playlists> playlists = logic.getAllPlaylistsFromDB();
+            playlistsObservableList.addAll(playlists);
+            tablePlaylist.setItems(playlistsObservableList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void updateSongTable() throws SQLException {
         songsObservableList.clear();
         List<Songs> songs = logic.getAllSongsFromDB();
         songsObservableList.addAll(songs);
+    }
+
+    public void updatePlaylistTable() throws SQLException {
+        playlistsObservableList.clear();
+        List<Playlists> playlists = logic.getAllPlaylistsFromDB();
+        playlistsObservableList.addAll(playlists);
     }
 
     public void btnPlayOnClick(ActionEvent actionEvent) {
@@ -115,14 +142,14 @@ public class MyTunesController {
         stage.close();
     }
 
-    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException {
+    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException {
         Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Add playlist");
         stage.setResizable(false);
-        stage.show();
-
+        stage.showAndWait();
+        updatePlaylistTable();
     }
 
     public void btnDeletePlaylistOnClick (ActionEvent actionEvent) {

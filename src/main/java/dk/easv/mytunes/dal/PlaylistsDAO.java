@@ -1,12 +1,36 @@
 package dk.easv.mytunes.dal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import dk.easv.mytunes.be.Playlists;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistsDAO {
     ConnectionManager conMan = new ConnectionManager();
+
+    public List<Playlists> getPlaylists() throws SQLException {
+        List<Playlists> playlists = new ArrayList<>();
+
+        try (Connection con = conMan.getConnection()) {
+            String sql = "SELECT * FROM Playlists";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("Playlist_id");
+                String name = rs.getString("Name");
+                int songsnumber = rs.getInt("SongsNumber");
+                String totaltime = rs.getString("TotalTime");
+
+                playlists.add(new Playlists(id, name, songsnumber, totaltime));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return playlists;
+    }
 
     public void addPlaylist(String playlistName) throws SQLException {
         try (Connection con = conMan.getConnection()) {
@@ -16,11 +40,10 @@ public class PlaylistsDAO {
             stmt.setInt(2, 0);
             stmt.setString(3, "0:00");
             stmt.executeUpdate();
-            stmt.close();
-            con.close();
-
-
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
-
 }

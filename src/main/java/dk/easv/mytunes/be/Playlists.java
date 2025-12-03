@@ -6,11 +6,11 @@ public class Playlists {
     private String TotalTime;
     private int SongsNumber;
 
-    public Playlists(int Playlist_id, String Name, String TotalTime,int  SongsNumber) {
+    public Playlists(int Playlist_id, String Name, int  SongsNumber, String TotalTime) {
         this.Playlist_id = Playlist_id;
         this.Name = Name;
-        this.TotalTime = TotalTime;
         this.SongsNumber = SongsNumber;
+        this.TotalTime = TotalTime;
     }
     public Playlists(String Name){
         this.Name = Name;
@@ -30,7 +30,6 @@ public class Playlists {
     public void setTotalTime(String TotalTime){
         this.TotalTime = TotalTime;
     }
-
     public int getSongsNumber(){
         return SongsNumber;
     }
