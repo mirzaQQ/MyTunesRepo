@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class MyTunesPlaylistController {
     @FXML
-    private Label lblExcpetion;
+    private Label lblException;
     @FXML
     private TextField txtPlaylist;
     @FXML
@@ -22,9 +22,10 @@ public class MyTunesPlaylistController {
 
     public void btnSaveOnClick(ActionEvent actionEvent) {
         String trimmedPlaylist = txtPlaylist.getText().trim();
-        if (trimmedPlaylist.equals("") || trimmedPlaylist == null) {
-            lblExcpetion.setVisible(true);
-            lblExcpetion.setText("Please fill out all fields");
+        if (trimmedPlaylist.isEmpty()) {
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" \"Name\" field is empty ");
         }
         else {
             System.out.println(txtPlaylist.getText());

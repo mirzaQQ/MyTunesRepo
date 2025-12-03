@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="138.0" maxWidth="404.0" prefHeight="138.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.MyTunesPlaylistController">
+<VBox maxHeight="140.0" maxWidth="404.0" prefHeight="124.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.MyTunesPlaylistController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="45.0" maxWidth="400.0" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
@@ -29,6 +29,15 @@
       </HBox>
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
+            <Label fx:id="lblException" maxWidth="214.0" prefHeight="27.0" prefWidth="214.0" text="&quot;exception&quot;:" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </Label>
+            <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <Button fx:id="closeButton" mnemonicParsing="false" onAction="#btnCloseOnClick" text="Cancel">
                <HBox.margin>
                   <Insets left="20.0" />
@@ -47,13 +56,8 @@
             </Button>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <Label fx:id="lblExcpetion" text="&quot;exception&quot;:" textFill="RED" visible="false">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" />
-         </VBox.margin>
-      </Label>
    </children>
 </VBox>

@@ -62,24 +62,26 @@ public class NewSongController implements Initializable {
     }
 
     public void txtEnterPressed(KeyEvent keyEvent) throws SQLException {
-
         if (keyEvent.getCode() == KeyCode.ENTER) {
             String genre = txtMore.getText();
-            Boolean exist = false;
+            boolean exist = categoriesObservableList.contains(genre);
 
             lblExist.setVisible(true);
-            if (!exist) {
-
+            if (genre.isEmpty()) {
+                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                lblExist.setText(" Category can not be empty ");
+            }
+            else if (!exist) {
                 categoriesObservableList.add(genre);
-                lblExist.setStyle("-fx-background-color: green");
-                lblExist.setText("Added successfully");
+                lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
+                lblExist.setText(" Added category successfully ");
                 category.setValue(genre);
+                logic.addCategory(genre);
             }
             else {
-                lblExist.setStyle("-fx-background-color: red");
-                lblExist.setText("Already exists");
+                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                lblExist.setText(" Category already exists ");
             }
-            logic.addCategory(category.getValue().toString());
         }
     }
     public void btnChooseOnClick(ActionEvent actionEvent) {
@@ -111,22 +113,22 @@ public class NewSongController implements Initializable {
 
         lblExist.setVisible(true);
         if(!isEmpty()){
-            lblExist.setStyle("-fx-background-color: red");
-            lblExist.setText("Some fields are empty");
+            lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblExist.setText(" Some fields are empty ");
         }
         else {
             if(currentFile == null){
-                lblExist.setStyle("-fx-background-color: red");
-                lblExist.setText("Please select a file");
+                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                lblExist.setText(" Please select a file ");
             }
             else {
                 if(!fileChecker.checkfile(currentFile)){
-                    lblExist.setStyle("-fx-background-color: red");
-                    lblExist.setText("Not mp3 or mp4");
+                    lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                    lblExist.setText(" Not a valid format ");
                 }
                 else {
-                    lblExist.setStyle("-fx-background-color: green");
-                    lblExist.setText("Saved successfully");
+                    lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
+                    lblExist.setText(" Saved successfully ");
                     String categoryString = category.getValue().toString();
                     logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, txtFile.getText());
                     Stage stage = (Stage) saveButton.getScene().getWindow();
@@ -138,7 +140,7 @@ public class NewSongController implements Initializable {
     }
     private boolean isEmpty(){
         String text = txtTitle.getText().trim();
-       String artist = txtArtist.getText().trim();
+        String artist = txtArtist.getText().trim();
         if(txtTitle.getText() == null || txtArtist.getText() == null || txtFile.getText() == null || category.getValue() == null){
             return false;
         }
