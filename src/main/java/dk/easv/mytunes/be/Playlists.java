@@ -3,10 +3,14 @@ package dk.easv.mytunes.be;
 public class Playlists {
     private int Playlist_id;
     private String Name;
+    private String TotalTime;
+    private int SongsNumber;
 
-    public Playlists(int Playlist_id, String Name){
+    public Playlists(int Playlist_id, String Name, String TotalTime,int  SongsNumber) {
         this.Playlist_id = Playlist_id;
         this.Name = Name;
+        this.TotalTime = TotalTime;
+        this.SongsNumber = SongsNumber;
     }
     public Playlists(String Name){
         this.Name = Name;
@@ -19,6 +23,19 @@ public class Playlists {
     }
     public void setName(String Name){
         this.Name = Name;
+    }
+    public String getTotalTime(){
+        return TotalTime;
+    }
+    public void setTotalTime(String TotalTime){
+        this.TotalTime = TotalTime;
+    }
+
+    public int getSongsNumber(){
+        return SongsNumber;
+    }
+    public void setSongsNumber(int SongsNumber){
+        this.SongsNumber = SongsNumber;
     }
 
 }
