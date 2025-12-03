@@ -28,6 +28,7 @@ public class Logic {
        return categoriesDAO.getCategories();
    }
    public void addCategory(String category) throws SQLException {
-
+       CategoriesDAO categoriesDAO = new CategoriesDAO();
+       categoriesDAO.addCategory(category);
    }
 }
