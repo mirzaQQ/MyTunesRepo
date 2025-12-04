@@ -48,6 +48,7 @@ public class MyTunesController {
     private TableColumn<Playlists, Integer> tablePlaylistSongs;
     @FXML
     private TableColumn<Playlists, String> tablePlaylistTime;
+    private Songs currentsong;
 
     private final Logic logic = new Logic();
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
@@ -93,18 +94,35 @@ public class MyTunesController {
         playlistsObservableList.addAll(playlists);
     }
 
-    public void btnPlayOnClick(ActionEvent actionEvent) {
-        lblDuration.setText(musicFunctions.getDuration());
-        lblName.setText(musicFunctions.getMusic());
+    public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
+
+        Songs song = tableSongs.getSelectionModel().getSelectedItem();
+        if (song == null) {
+            return;
+        }
+        if(song == null || !song.equals(currentsong)) {
+            musicFunctions.song(song.getSong_id());
+            currentsong = song;
+            btnPlay.setText("⏸");
+            btnPlay.setFont(new Font(20));
+            lblDuration.setText(musicFunctions.getStatus());
+            lblName.setText(musicFunctions.getMusic());
+            musicFunctions.playMusic();
+            return;
+
+        }
 
         if (musicFunctions.getStatus().equals("PLAYING")) {
             musicFunctions.pauseMusic();
             btnPlay.setText("▶");
             btnPlay.setFont(new Font(24));
-        } else {
+            return;
+
+        } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.playMusic();
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
+            return;
         }
     }
 
@@ -206,5 +224,9 @@ public class MyTunesController {
             Implement label that will informs user if no song is selected for deletion
              */
         }
+    }
+
+    public void btnStatus(ActionEvent actionEvent) {
+        System.out.println(musicFunctions.getStatus());
     }
 }

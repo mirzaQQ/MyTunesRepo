@@ -35,8 +35,6 @@ public class Logic {
        playlistsDAO.addPlaylist(playlist);
    }
    public void deletePlaylistFromDB(int playlist) throws SQLException {
-      
-
        playlistsDAO.deletePlaylist(playlist);
    }
    public List<Playlists> getAllPlaylistsFromDB() throws SQLException {
@@ -46,4 +44,8 @@ public class Logic {
        List<Playlists> playlists = getAllPlaylistsFromDB();
        return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));
    }
+/**
+   public void getSong(int song_id) throws  SQLException {
+       songsDAO.playSong(song_id);
+   }*/
 }

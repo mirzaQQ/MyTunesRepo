@@ -96,7 +96,7 @@ public class NewSongController implements Initializable {
 
         txtFile.setText(currentFile.getAbsolutePath());
         if(fileChecker.checkfile(currentFile)) {
-            txtTime.setText(musicFunctions.getDuration());
+            txtTime.setText(musicFunctions.getStatus());
         }
         else {
             txtTime.setText("ERROR");
