@@ -29,6 +29,8 @@ public class MyTunesController {
     @FXML
     private Label lblDuration;
     @FXML
+    private Label lblexception;
+    @FXML
     private Slider sliderVolume;
     @FXML
     private TableView<Songs> tableSongs;
@@ -54,8 +56,20 @@ public class MyTunesController {
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
     private final ObservableList<Playlists> playlistsObservableList = FXCollections.observableArrayList();
     MusicFunctions musicFunctions = new MusicFunctions();
+    boolean isPlaylistSelected = false;
+    boolean isSongSelected = false;
 
-    public void initialize() {
+    public void initialize() throws SQLException {
+        initializeSongTable();
+        initializePlaylistTable();
+
+        tablePlaylist.getSelectionModel().selectedItemProperty().addListener(
+                (_, _, _) -> setSelectedPlaylist());
+        tableSongs.getSelectionModel().selectedItemProperty().addListener(
+                (_, _, _) -> setSelectedSong());
+    }
+
+    public void initializeSongTable() throws SQLException {
         tableSongsTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tableSongsArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         tableSongsCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -68,7 +82,9 @@ public class MyTunesController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public void initializePlaylistTable() throws SQLException {
         tablePlaylistName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tablePlaylistSongs.setCellValueFactory(new PropertyValueFactory<>("songsNumber"));
         tablePlaylistTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
@@ -94,6 +110,25 @@ public class MyTunesController {
         playlistsObservableList.addAll(playlists);
     }
 
+    public void setSelectedPlaylist() {
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null) {
+            isPlaylistSelected = true;
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: black;");
+            lblexception.setText("Selected playlist: " + selectedPlaylist.getName());
+        }
+        else {
+            isPlaylistSelected = false;
+            lblexception.setVisible(false);
+        }
+    }
+
+    public void setSelectedSong() {
+        Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        isSongSelected = selectedSong != null;
+    }
+
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
 
         Songs song = tableSongs.getSelectionModel().getSelectedItem();
@@ -107,8 +142,6 @@ public class MyTunesController {
             btnPlay.setFont(new Font(20));
             lblName.setText(musicFunctions.getMusic());
             musicFunctions.playMusic();
-
-
             return;
         }
         if (musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("READY")) {
@@ -120,8 +153,8 @@ public class MyTunesController {
 
         } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.playMusic();
-
-
+            lblDuration.setText(musicFunctions.getDuration());
+            System.out.println(musicFunctions.getDuration());
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             return;
@@ -147,7 +180,7 @@ public class MyTunesController {
     }
 
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
-        Parent root = FXMLLoader.load(getClass().getResource("New-Song.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MyTunesSongView.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Add song");
@@ -173,18 +206,18 @@ public class MyTunesController {
 
     public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
-        /*
-        ToDo
-        Ask user if he wants to delete playlist
+        /**
+         *ToDo
+         *Ask user if he wants to delete playlist
          */
         if (selectedPlaylist != null) {
             logic.deletePlaylistFromDB(selectedPlaylist.getPlaylist_id());
             playlistsObservableList.remove(selectedPlaylist);
         }
         else {
-            /*
-            ToDo
-            Implement label that will informs user if no playlist is selected for deletion
+            /**
+             *ToDo
+             *Implement label that will informs user if no playlist is selected for deletion
              */
         }
     }
@@ -205,6 +238,29 @@ public class MyTunesController {
     }
 
     public void btnMoveSongToPlaylistOnClick(ActionEvent actionEvent) {
+        if (!isPlaylistSelected) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Please select playlist ");
+        }
+        else if (!isSongSelected) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Please select song ");
+        }
+        else {
+            try {
+                Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+                Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+                logic.addSongToPlaylist(selectedSong.getSong_id(), selectedPlaylist.getPlaylist_id());
+
+                lblexception.setVisible(true);
+                lblexception.setStyle("-fx-text-fill: black;");
+                lblexception.setText(" Song \"" + tableSongs.getSelectionModel().getSelectedItem().getTitle() + "\" moved to \"" + tablePlaylist.getSelectionModel().getSelectedItem().getName() + "\" playlist");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void BtnEditSongOnClick(ActionEvent actionEvent) {
@@ -212,18 +268,18 @@ public class MyTunesController {
 
     public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-        /*
-        ToDo
-        Ask user if he wants to delete song
+        /**
+         *ToDo
+         *Ask user if he wants to delete song
          */
         if (selectedSong != null) {
             logic.deleteSongFromDB(selectedSong.getSong_id());
             songsObservableList.remove(selectedSong);
         }
         else {
-            /*
-            ToDo
-            Implement label that will informs user if no song is selected for deletion
+            /**
+             *ToDo
+             *Implement label that will informs user if no song is selected for deletion
              */
         }
     }

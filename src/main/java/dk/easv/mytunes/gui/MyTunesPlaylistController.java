@@ -17,7 +17,9 @@ public class MyTunesPlaylistController {
     private TextField txtPlaylist;
     @FXML
     private Button closeButton;
+
     Logic logic =  new Logic();
+
     public void btnCloseOnClick(ActionEvent actionEvent) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();

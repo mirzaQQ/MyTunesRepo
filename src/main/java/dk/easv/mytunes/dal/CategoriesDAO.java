@@ -35,7 +35,6 @@ public class CategoriesDAO {
             ps.setString(1, category);
             ps.executeUpdate();
             ps.close();
-            con.close();
         }
     }
 }

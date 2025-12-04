@@ -1,11 +1,10 @@
 package dk.easv.mytunes.bll;
 
-import dk.easv.mytunes.be.Category;
-import dk.easv.mytunes.be.Playlists;
-import dk.easv.mytunes.be.Songs;
+import dk.easv.mytunes.be.*;
 import dk.easv.mytunes.dal.CategoriesDAO;
 import dk.easv.mytunes.dal.PlaylistsDAO;
 import dk.easv.mytunes.dal.SongsDAO;
+import dk.easv.mytunes.dal.PlaylistSongDAO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +13,7 @@ public class Logic {
    SongsDAO songsDAO = new SongsDAO();
    CategoriesDAO categoriesDAO = new CategoriesDAO();
    PlaylistsDAO playlistsDAO = new PlaylistsDAO();
+   PlaylistSongDAO playlistSongDAO = new PlaylistSongDAO();
 
    public List<Songs> getAllSongsFromDB() throws SQLException {
        return songsDAO.getSongs();
@@ -44,8 +44,7 @@ public class Logic {
        List<Playlists> playlists = getAllPlaylistsFromDB();
        return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));
    }
-/**
-   public void getSong(int song_id) throws  SQLException {
-       songsDAO.playSong(song_id);
-   }*/
+   public void addSongToPlaylist(int songId, int playlistId) throws SQLException {
+       playlistSongDAO.addSongToPlaylist(playlistId, songId);
+   }
 }

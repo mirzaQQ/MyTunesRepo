@@ -59,6 +59,14 @@
             </HBox>
          </children>
       </HBox>
+      <Label fx:id="lblexception" text="&quot;exception&quot;" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="-20.0" top="-20.0" />
+         </VBox.margin>
+      </Label>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="860.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="260.0" prefHeight="425.0" prefWidth="260.0" HBox.hgrow="ALWAYS">

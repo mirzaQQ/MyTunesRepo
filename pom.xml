@@ -63,7 +63,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>dk.easv.mytunes/dk.easv.mytunes.HelloApplication</mainClass>
+              <mainClass>dk.easv.mytunes/dk.easv.mytunes.Application</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
