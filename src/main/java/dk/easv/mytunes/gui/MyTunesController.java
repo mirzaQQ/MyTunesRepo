@@ -105,21 +105,23 @@ public class MyTunesController {
             currentsong = song;
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
-            lblDuration.setText(musicFunctions.getStatus());
             lblName.setText(musicFunctions.getMusic());
             musicFunctions.playMusic();
+
+
             return;
-
         }
-
-        if (musicFunctions.getStatus().equals("PLAYING")) {
+        if (musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.pauseMusic();
+            lblDuration.setText(musicFunctions.getDuration());
             btnPlay.setText("▶");
             btnPlay.setFont(new Font(24));
             return;
 
         } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.playMusic();
+
+
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             return;
