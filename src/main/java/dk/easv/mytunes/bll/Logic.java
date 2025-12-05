@@ -53,5 +53,11 @@ public class Logic {
    public void deleteSongFromPlaylist(int playlistId, int position) throws SQLException {
        playlistSongDAO.deleteSongFromPlaylist(playlistId, position);
    }
+   public void moveSongUpInDB(int playlistId, int position) throws SQLException {
+       playlistSongDAO.moveSongUpInDB(playlistId, position);
+   }
+   public void moveSongDownInDB(int playlistId, int position, int maxPosition) throws SQLException {
+       playlistSongDAO.moveSongDownInDB(playlistId, position, maxPosition);
+   }
 
 }

@@ -265,9 +265,66 @@ public class MyTunesController {
     }
 
     public void BtnMoveSongUpOnClick(ActionEvent actionEvent) {
+        int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex < 0) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Please select a song ");
+            return;
+        }
+
+        if (selectedIndex == 0) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Song is already on top ");
+            return;
+        }
+
+        try {
+            Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+            if (selectedPlaylist != null) {
+                int position = selectedIndex + 1;
+                logic.moveSongUpInDB(selectedPlaylist.getPlaylist_id(), position);
+                updatePlaylistSongList();
+                listSongsOnPlaylist.getSelectionModel().select(selectedIndex - 1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void BtnMoveSongDownOnClick(ActionEvent actionEvent) {
+        int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+        int maxIndex = listSongsOnPlaylist.getItems().size() - 1;
+
+        if (selectedIndex < 0) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Please select a song ");
+            return;
+        }
+
+        if (selectedIndex == maxIndex) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Song is already on bottom ");
+            return;
+        }
+
+        try {
+            Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+            if (selectedPlaylist != null) {
+                int position = selectedIndex + 1;
+                int maxPosition = listSongsOnPlaylist.getItems().size();
+                logic.moveSongDownInDB(selectedPlaylist.getPlaylist_id(), position, maxPosition);
+                updatePlaylistSongList();
+                listSongsOnPlaylist.getSelectionModel().select(selectedIndex + 1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void BtnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {

@@ -89,4 +89,46 @@ public class PlaylistSongDAO {
 
         }
     }
+
+    public void moveSongUpInDB(int playlist_Id, int position) throws SQLException {
+        if (position <= 1) return;
+
+        try (Connection con = conMan.getConnection()) {
+            String sql = "UPDATE PlaylistSong SET Position = CASE WHEN Position = ? THEN ? WHEN Position = ? THEN ? END WHERE Playlist_id = ? AND Position IN (?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, position);
+            stmt.setInt(2, position - 1);
+            stmt.setInt(3, position - 1);
+            stmt.setInt(4, position);
+            stmt.setInt(5, playlist_Id);
+            stmt.setInt(6, position);
+            stmt.setInt(7, position - 1);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void moveSongDownInDB(int playlist_Id, int position, int maxPosition) throws SQLException {
+        if (position >= maxPosition) return;
+
+        try (Connection con = conMan.getConnection()) {
+            String sql = "UPDATE PlaylistSong SET Position = CASE WHEN Position = ? THEN ? WHEN Position = ? THEN ? END WHERE Playlist_id = ? AND Position IN (?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, position);
+            stmt.setInt(2, position + 1);
+            stmt.setInt(3, position + 1);
+            stmt.setInt(4, position);
+            stmt.setInt(5, playlist_Id);
+            stmt.setInt(6, position);
+            stmt.setInt(7, position + 1);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
