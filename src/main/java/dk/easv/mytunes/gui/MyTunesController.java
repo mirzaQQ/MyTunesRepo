@@ -137,11 +137,16 @@ public class MyTunesController {
         }
         if(song == null || !song.equals(currentsong)) {
             musicFunctions.song(song.getSong_id());
+            
+            musicFunctions.playMusic();
             currentsong = song;
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             lblName.setText(musicFunctions.getMusic());
-            musicFunctions.playMusic();
+            if (musicFunctions.getStatus().equals("READY") || musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("PAUSED")) {
+                lblDuration.setText((musicFunctions.getDuration()));
+            }
+
             return;
         }
         if (musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("READY")) {
@@ -154,7 +159,7 @@ public class MyTunesController {
         } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.playMusic();
             lblDuration.setText(musicFunctions.getDuration());
-            System.out.println(musicFunctions.getDuration());
+           //System.out.println(musicFunctions.getDuration());
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             return;

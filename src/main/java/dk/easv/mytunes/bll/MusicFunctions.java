@@ -18,19 +18,12 @@ public class MusicFunctions {
         bip = songsDAO.playSong(songid);
         hit = new Media(new File(bip).toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
-       return mediaPlayer;
+        return mediaPlayer;
     }
-
-    /**
-    SongsDAO songsDAO = new SongsDAO();
-    private String bip = "music.mp3";
-    private Media hit = new Media(new File(bip).toURI().toString());
-    private MediaPlayer mediaPlayer = new MediaPlayer(hit);*/
 
     public void playMusic() {
 
        mediaPlayer.play();
-
 
     }
     public void pauseMusic() {
@@ -62,9 +55,8 @@ public class MusicFunctions {
         int totalseconds = durationInt / 1000;
         int minutes = totalseconds / 60;
         int seconds = totalseconds % 60;
-        String fullDuration = String.format("%02d:%02d", minutes, seconds);
 
-        return fullDuration;
+        return String.format("%02d:%02d", minutes, seconds);
     }
     public String getMusic() {
         String regex = "[\\\\]";
