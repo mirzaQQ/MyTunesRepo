@@ -1,5 +1,6 @@
 package dk.easv.mytunes.gui;
 
+import dk.easv.mytunes.be.PlaylistSong;
 import dk.easv.mytunes.be.Playlists;
 import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.bll.*;
@@ -33,6 +34,8 @@ public class MyTunesController {
     @FXML
     private Slider sliderVolume;
     @FXML
+    private ListView<String> listSongsOnPlaylist;
+    @FXML
     private TableView<Songs> tableSongs;
     @FXML
     private TableColumn<Songs, String> tableSongsTitle;
@@ -55,6 +58,7 @@ public class MyTunesController {
     private final Logic logic = new Logic();
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
     private final ObservableList<Playlists> playlistsObservableList = FXCollections.observableArrayList();
+    private final ObservableList<String> playlistSongObservableList = FXCollections.observableArrayList();
     MusicFunctions musicFunctions = new MusicFunctions();
     boolean isPlaylistSelected = false;
     boolean isSongSelected = false;
@@ -62,6 +66,8 @@ public class MyTunesController {
     public void initialize() throws SQLException {
         initializeSongTable();
         initializePlaylistTable();
+
+        listSongsOnPlaylist.setItems(playlistSongObservableList);
 
         tablePlaylist.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, _) -> setSelectedPlaylist());
@@ -110,16 +116,36 @@ public class MyTunesController {
         playlistsObservableList.addAll(playlists);
     }
 
+    public void updatePlaylistSongList() throws SQLException {
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist == null) {
+            playlistSongObservableList.clear();
+            return;
+        }
+        playlistSongObservableList.clear();
+        List<PlaylistSong> playlistSongs = logic.getAllPlaylistSongsFromDB(selectedPlaylist.getPlaylist_id());
+
+        for (PlaylistSong ps : playlistSongs)
+            playlistSongObservableList.add(ps.gettitle());
+    }
+
+
     public void setSelectedPlaylist() {
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
         if (selectedPlaylist != null) {
             isPlaylistSelected = true;
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: black;");
-            lblexception.setText("Selected playlist: " + selectedPlaylist.getName());
+            try {
+                lblexception.setVisible(true);
+                lblexception.setStyle("-fx-text-fill: black;");
+                lblexception.setText("Selected playlist: " + selectedPlaylist.getName());
+                updatePlaylistSongList();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         else {
             isPlaylistSelected = false;
+            playlistSongObservableList.clear();
             lblexception.setVisible(false);
         }
     }
@@ -258,6 +284,7 @@ public class MyTunesController {
                 Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
                 Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
                 logic.addSongToPlaylist(selectedSong.getSong_id(), selectedPlaylist.getPlaylist_id());
+                updatePlaylistSongList();
 
                 lblexception.setVisible(true);
                 lblexception.setStyle("-fx-text-fill: black;");

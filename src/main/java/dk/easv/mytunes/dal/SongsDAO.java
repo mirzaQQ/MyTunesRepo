@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongsDAO {
-
     ConnectionManager conMan = new ConnectionManager();
 
     public List<Songs> getSongs() throws SQLException {

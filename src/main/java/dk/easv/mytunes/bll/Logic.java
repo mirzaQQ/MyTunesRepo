@@ -47,4 +47,7 @@ public class Logic {
    public void addSongToPlaylist(int songId, int playlistId) throws SQLException {
        playlistSongDAO.addSongToPlaylist(playlistId, songId);
    }
+   public List<PlaylistSong> getAllPlaylistSongsFromDB(int playlistId) throws SQLException {
+       return playlistSongDAO.getPlaylistSongsFromDB(playlistId);
+   }
 }
