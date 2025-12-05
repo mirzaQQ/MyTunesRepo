@@ -156,6 +156,11 @@ public class MyTunesController {
     }
 
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+
+        String playlistSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
+
+        
 
         Songs song = tableSongs.getSelectionModel().getSelectedItem();
         if (song == null) {
@@ -185,7 +190,7 @@ public class MyTunesController {
         } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
             musicFunctions.playMusic();
             lblDuration.setText(musicFunctions.getDuration());
-           //System.out.println(musicFunctions.getDuration());
+
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             return;
