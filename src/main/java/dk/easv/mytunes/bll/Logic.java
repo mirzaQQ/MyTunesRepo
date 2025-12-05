@@ -44,10 +44,14 @@ public class Logic {
        List<Playlists> playlists = getAllPlaylistsFromDB();
        return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));
    }
+    public List<PlaylistSong> getAllPlaylistSongsFromDB(int playlistId) throws SQLException {
+        return playlistSongDAO.getPlaylistSongsFromDB(playlistId);
+    }
    public void addSongToPlaylist(int songId, int playlistId) throws SQLException {
        playlistSongDAO.addSongToPlaylist(playlistId, songId);
    }
-   public List<PlaylistSong> getAllPlaylistSongsFromDB(int playlistId) throws SQLException {
-       return playlistSongDAO.getPlaylistSongsFromDB(playlistId);
+   public void deleteSongFromPlaylist(int playlistId, int position) throws SQLException {
+       playlistSongDAO.deleteSongFromPlaylist(playlistId, position);
    }
+
 }

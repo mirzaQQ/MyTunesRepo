@@ -16,6 +16,7 @@ ConnectionManager.java
 .idea/dataSources
 .idea/dataSources.xml
 .idea/dataSources.local.xml
+.idea/inspectionProfiles/Project_Default.xml
 *.iws
 *.iml
 *.ipr

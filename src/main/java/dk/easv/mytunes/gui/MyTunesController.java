@@ -266,6 +266,26 @@ public class MyTunesController {
     }
 
     public void BtnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {
+        String selectedSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
+        int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+
+        if (selectedSong == null) {
+            lblexception.setVisible(true);
+            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblexception.setText(" Please select song to delete ");
+        }
+        else {
+            try {
+                Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+                if (selectedPlaylist != null) {
+                    int position = selectedIndex + 1;
+                    logic.deleteSongFromPlaylist(selectedPlaylist.getPlaylist_id(), position);
+                    updatePlaylistSongList();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void btnMoveSongToPlaylistOnClick(ActionEvent actionEvent) {

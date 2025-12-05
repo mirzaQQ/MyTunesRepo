@@ -13,7 +13,7 @@ public class PlaylistSongDAO {
         List<PlaylistSong> playlistSongs = new ArrayList<>();
 
         try (Connection con = conMan.getConnection()) {
-            String sql = "SELECT ps.*, s.Title From PlaylistSong ps JOIN Songs s ON ps.Song_id = s.Song_id WHERE ps.Playlist_id = ?";
+            String sql = "SELECT ps.*, s.Title From PlaylistSong ps JOIN Songs s ON ps.Song_id = s.Song_id WHERE ps.Playlist_id = ? ORDER BY ps.Position ASC";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, playlistId);
             ResultSet rs = stmt.executeQuery();
@@ -34,12 +34,42 @@ public class PlaylistSongDAO {
 
     public void addSongToPlaylist(int playlist, int song) throws SQLException {
         try (Connection con = conMan.getConnection()) {
-            String sql = "INSERT INTO PlaylistSong (Playlist_id, Song_id) VALUES (?,?)";
+            String getMaxPos = "SELECT MAX(Position) as maxPos FROM PlaylistSong WHERE Playlist_id = ?";
+            PreparedStatement stmtMax = con.prepareStatement(getMaxPos);
+            stmtMax.setInt(1, playlist);
+            ResultSet rsMax = stmtMax.executeQuery();
+
+            int newPos = 1;
+            if (rsMax.next() && rsMax.getInt("maxPos") > 0) {
+                newPos = rsMax.getInt("maxPos") + 1;
+            }
+
+            String sql = "INSERT INTO PlaylistSong (Playlist_id, Song_id, Position) VALUES (?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, playlist);
             stmt.setInt(2, song);
+            stmt.setInt(3, newPos);
             stmt.executeUpdate();
-            stmt.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void deleteSongFromPlaylist(int playlist, int position) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            String getPos = "DELETE FROM PlaylistSong WHERE Playlist_id = ? AND Position = ?";
+            PreparedStatement stmtPos = con.prepareStatement(getPos);
+            stmtPos.setInt(1, playlist);
+            stmtPos.setInt(2, position);
+            stmtPos.executeUpdate();
+
+            String updatePos = "UPDATE PlaylistSong SET Position = Position - 1 WHERE Playlist_id = ? AND Position > ?";
+            PreparedStatement stmtUpdate = con.prepareStatement(updatePos);
+            stmtUpdate.setInt(1, playlist);
+            stmtUpdate.setInt(2, position);
+            stmtUpdate.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();
