@@ -53,8 +53,6 @@ public class SongsDAO {
             stmt.setString(4,time);
             stmt.setString(5,file);
             stmt.executeUpdate();
-            stmt.close();
-            con.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,8 +67,7 @@ public class SongsDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.executeUpdate();
-            stmt.close();
-            con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;

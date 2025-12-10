@@ -168,15 +168,12 @@ public class MyTunesController {
                 musicFunctions.stopMusic();
             }
             musicFunctions.song(song.getSong_id());
-            musicFunctions.setOnDurationReady(() -> {
-                lblDuration.setText(musicFunctions.getDuration());
-            });
             musicFunctions.playMusic();
             currentsong = song;
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             lblName.setText(musicFunctions.getMusic());
-            lblDuration.setText(musicFunctions.getDuration());
+            lblDuration.setText(song.getTime());
             return;
         }
 

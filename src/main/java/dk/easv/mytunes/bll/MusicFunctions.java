@@ -46,13 +46,6 @@ public class MusicFunctions {
         }
     }
 
-    public String getDuration() {
-        long totalSeconds = (long) mediaPlayer.getTotalDuration().toSeconds();
-        long minutes = totalSeconds / 60;
-        long seconds = totalSeconds % 60;
-        return String.format("%02d:%02d", minutes, seconds);
-    }
-
     public String getMusic() {
         String regex = "[\\\\]";
         String[] splitedBip = bip.split(regex);
@@ -77,11 +70,5 @@ public class MusicFunctions {
     public void stopMusic() {
         mediaPlayer.stop();
         mediaPlayer.dispose();
-    }
-
-    public void setOnDurationReady(Runnable callback) {
-        if (mediaPlayer != null) {
-            mediaPlayer.setOnReady(callback);
-        }
     }
 }
