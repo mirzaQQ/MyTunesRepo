@@ -9,6 +9,7 @@ public class FileChecker {
     public File open(){
         File currentFile;
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("src/main/resources/music"));
         fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(new Stage());
         if (file == null) {

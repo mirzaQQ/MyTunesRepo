@@ -126,7 +126,7 @@ public class MyTunesController {
         List<PlaylistSong> playlistSongs = logic.getAllPlaylistSongsFromDB(selectedPlaylist.getPlaylist_id());
 
         for (PlaylistSong ps : playlistSongs)
-            playlistSongObservableList.add(ps.gettitle());
+            playlistSongObservableList.add(ps.getTitle());
     }
 
 
@@ -156,44 +156,39 @@ public class MyTunesController {
     }
 
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
-        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
-
-        String playlistSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
-
-        
-
         Songs song = tableSongs.getSelectionModel().getSelectedItem();
+
         if (song == null) {
             return;
         }
-        if(song == null || !song.equals(currentsong)) {
+
+        // If different song selected, load and play it
+        if (!song.equals(currentsong)) {
+            if (currentsong != null) {
+                musicFunctions.stopMusic();
+            }
             musicFunctions.song(song.getSong_id());
-            
+            musicFunctions.setOnDurationReady(() -> {
+                lblDuration.setText(musicFunctions.getDuration());
+            });
             musicFunctions.playMusic();
             currentsong = song;
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
             lblName.setText(musicFunctions.getMusic());
-            if (musicFunctions.getStatus().equals("READY") || musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("PAUSED")) {
-                lblDuration.setText((musicFunctions.getDuration()));
-            }
-
+            lblDuration.setText(musicFunctions.getDuration());
             return;
         }
-        if (musicFunctions.getStatus().equals("PLAYING") || musicFunctions.getStatus().equals("READY")) {
+
+        // Toggle play/pause for the same song
+        if (musicFunctions.getStatus().equals("PLAYING")) {
             musicFunctions.pauseMusic();
-            lblDuration.setText(musicFunctions.getDuration());
             btnPlay.setText("▶");
             btnPlay.setFont(new Font(24));
-            return;
-
-        } if (musicFunctions.getStatus().equals("PAUSED") || musicFunctions.getStatus().equals("READY")) {
+        } else {
             musicFunctions.playMusic();
-            lblDuration.setText(musicFunctions.getDuration());
-
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
-            return;
         }
     }
 

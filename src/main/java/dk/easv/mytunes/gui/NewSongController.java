@@ -12,9 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -84,24 +87,42 @@ public class NewSongController implements Initializable {
             }
         }
     }
-    public void btnChooseOnClick(ActionEvent actionEvent) {
-
+    public void btnChooseOnClick(ActionEvent actionEvent) throws IOException {
         MusicFunctions musicFunctions = new MusicFunctions();
-        /**
-         * parts of this can in bll
-         * new file should be created for this in the bll
-         * that can be used for checking if the user choose a mp3 or wav.
-         */
         currentFile = fileChecker.open();
 
-        txtFile.setText(currentFile.getAbsolutePath());
-        if(fileChecker.checkfile(currentFile)) {
-            txtTime.setText(musicFunctions.getStatus());
+        if (currentFile != null) {
+            txtFile.setText(currentFile.getCanonicalPath());
+            if (fileChecker.checkfile(currentFile)) {
+                try {
+                    Media media = new Media(currentFile.toURI().toString());
+                    MediaPlayer tempPlayer = new MediaPlayer(media);
+                    media.durationProperty().addListener((_, _, newDurration) -> {
+                        if (newDurration != null && !newDurration.isUnknown()) {
+                            long minutes = (long) newDurration.toMinutes();
+                            long seconds = (long) newDurration.toSeconds() % 60;
+                            txtTime.setText(String.format("%02d:%02d", minutes, seconds));
+                            tempPlayer.dispose();
+                        }
+                    });
+                } catch (Exception e) {
+                    txtTime.setText("ERROR");
+                }
+            } else {
+                txtTime.setText("ERROR");
+            }
         }
-        else {
-            txtTime.setText("ERROR");
-        }
+    }
 
+    private String getRelativePath(File file) {
+        String absolutePath = file.getAbsolutePath();
+        String resourcesPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "music";
+
+        int index = absolutePath.indexOf(resourcesPath);
+        if (index != -1) {
+            return absolutePath.substring(index).replace(file.separator, "/");
+        }
+        return absolutePath;
     }
 
     public void btnCancelClick(ActionEvent actionEvent) {
@@ -130,7 +151,8 @@ public class NewSongController implements Initializable {
                     lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
                     lblExist.setText(" Saved successfully ");
                     String categoryString = category.getValue().toString();
-                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, txtFile.getText());
+                    String relativePath = getRelativePath(currentFile);
+                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, relativePath);
                     Stage stage = (Stage) saveButton.getScene().getWindow();
                     stage.close();
                 }

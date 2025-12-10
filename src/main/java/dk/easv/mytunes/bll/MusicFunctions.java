@@ -10,14 +10,15 @@ import static java.lang.Double.parseDouble;
 public class MusicFunctions {
     private MediaPlayer mediaPlayer;
     private String bip;
-    private Media hit;
+    private double currentvolume = 0.1;
 
 
     public MediaPlayer song(int songid) throws SQLException {
         SongsDAO songsDAO = new SongsDAO();
         bip = songsDAO.playSong(songid);
-        hit = new Media(new File(bip).toURI().toString());
+        Media hit = new Media(new File(bip).toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.setVolume(currentvolume);
         return mediaPlayer;
     }
 
@@ -39,25 +40,19 @@ public class MusicFunctions {
     }
 
     public void setVolume(double volume) {
-        double rounded = Math.round(volume * 10) / 10.0;
-        mediaPlayer.setVolume(volume);
+        currentvolume = volume;
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(currentvolume);
+        }
     }
 
     public String getDuration() {
-        /**
-        *Duration in in ms and must be converted to string to cut of the "ms" part
-         * then into double because the duration of the last song was x.0 so it cannot be converted into int from string
-         * therefor it must be double and then integer
-         */
-        String duration = mediaPlayer.getTotalDuration().toString().replace("ms", "").trim();
-        double durationDouble = Double.parseDouble(duration);
-        int durationInt = (int) durationDouble;
-        int totalseconds = durationInt / 1000;
-        int minutes = totalseconds / 60;
-        int seconds = totalseconds % 60;
-
+        long totalSeconds = (long) mediaPlayer.getTotalDuration().toSeconds();
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
+
     public String getMusic() {
         String regex = "[\\\\]";
         String[] splitedBip = bip.split(regex);
@@ -77,6 +72,16 @@ public class MusicFunctions {
         else{
             mediaPlayer.stop();
         }
+    }
 
+    public void stopMusic() {
+        mediaPlayer.stop();
+        mediaPlayer.dispose();
+    }
+
+    public void setOnDurationReady(Runnable callback) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setOnReady(callback);
+        }
     }
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="140.0" maxWidth="404.0" prefHeight="124.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.MyTunesPlaylistController">
+<VBox maxHeight="140.0" maxWidth="404.0" prefHeight="124.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.NewPlaylistController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="45.0" maxWidth="400.0" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>

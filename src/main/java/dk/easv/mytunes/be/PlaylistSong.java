@@ -22,7 +22,7 @@ public class PlaylistSong {
     public int getPosition() {
         return Position;
     }
-    public String gettitle() {
+    public String getTitle() {
         return title;
     }
     public void setPosition(int Position) {

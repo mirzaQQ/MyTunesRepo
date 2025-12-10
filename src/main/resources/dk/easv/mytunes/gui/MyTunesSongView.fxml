@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.NewSongController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mytunes.gui.NewSongController">
    <children>
       <Label prefHeight="52.0" prefWidth="124.0" text="New/Edit Song">
          <font>
@@ -152,7 +152,7 @@
                </HBox.margin>
             </Label>
             <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-            <Button fx:id="cancelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnCancelClick" prefHeight="37.0" prefWidth="59.0" text="Close">
+            <Button fx:id="cancelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnCancelClick" prefHeight="37.0" prefWidth="70.0" text="Close">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
@@ -160,7 +160,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="saveButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnClick" prefHeight="37.0" prefWidth="54.0" text="Save">
+            <Button fx:id="saveButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnClick" prefHeight="37.0" prefWidth="70.0" text="Save">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
