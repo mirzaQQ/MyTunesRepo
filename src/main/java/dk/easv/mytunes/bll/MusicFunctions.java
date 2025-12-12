@@ -43,6 +43,9 @@ public class MusicFunctions {
     }
 
     public String getMusic() {
+        /**
+         * Method created just to obtain the name of the name of the file.
+         */
         String regex = "[\\\\]";
         String[] splitedBip = bip.split(regex);
         String music = splitedBip[splitedBip.length - 1];
