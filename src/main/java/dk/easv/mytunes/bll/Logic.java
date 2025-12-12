@@ -37,10 +37,13 @@ public class Logic {
    public void deletePlaylistFromDB(int playlist) throws SQLException {
        playlistsDAO.deletePlaylist(playlist);
    }
-   public List<Playlists> getAllPlaylistsFromDB() throws SQLException {
+    public List<Playlists> getAllPlaylistsFromDB() throws SQLException {
        return playlistsDAO.getPlaylists();
    }
-   public boolean checkIfPlaylistExists(String playlistName) throws SQLException {
+    public void updatePlaylist(int playlistId) throws SQLException {
+        playlistsDAO.updatePlaylist(playlistId);
+    }
+    public boolean checkIfPlaylistExists(String playlistName) throws SQLException {
        List<Playlists> playlists = getAllPlaylistsFromDB();
        return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));
    }

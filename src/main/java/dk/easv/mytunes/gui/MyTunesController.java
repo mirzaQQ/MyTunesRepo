@@ -30,7 +30,7 @@ public class MyTunesController {
     @FXML
     private Label lblDuration;
     @FXML
-    private Label lblexception;
+    private Label lblException;
     @FXML
     private Slider sliderVolume;
     @FXML
@@ -53,7 +53,7 @@ public class MyTunesController {
     private TableColumn<Playlists, Integer> tablePlaylistSongs;
     @FXML
     private TableColumn<Playlists, String> tablePlaylistTime;
-    private Songs currentsong;
+    private Songs currentSong;
 
     private final Logic logic = new Logic();
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
@@ -135,9 +135,9 @@ public class MyTunesController {
         if (selectedPlaylist != null) {
             isPlaylistSelected = true;
             try {
-                lblexception.setVisible(true);
-                lblexception.setStyle("-fx-text-fill: black;");
-                lblexception.setText("Selected playlist: " + selectedPlaylist.getName());
+                lblException.setVisible(true);
+                lblException.setStyle("-fx-text-fill: black;");
+                lblException.setText("Selected playlist: " + selectedPlaylist.getName());
                 updatePlaylistSongList();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -146,7 +146,7 @@ public class MyTunesController {
         else {
             isPlaylistSelected = false;
             playlistSongObservableList.clear();
-            lblexception.setVisible(false);
+            lblException.setVisible(false);
         }
     }
 
@@ -156,23 +156,38 @@ public class MyTunesController {
     }
 
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
-        Songs song = tableSongs.getSelectionModel().getSelectedItem();
+        Songs song = null;
+        String playlistSongTitle = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
 
+        if (selectedPlaylist != null && !playlistSongObservableList.isEmpty()) {
+            if (playlistSongTitle == null) {
+                playlistSongTitle = playlistSongObservableList.getFirst();
+            }
+
+            for (Songs s : songsObservableList) {
+                if (s.getTitle().equals(playlistSongTitle)) {
+                    song = s;
+                    break;
+                }
+            }
+        } else {
+            return;
+        }
         if (song == null) {
             return;
         }
 
-        // If different song selected, load and play it
-        if (!song.equals(currentsong)) {
-            if (currentsong != null) {
+        if (!song.equals(currentSong)) {
+            if (currentSong != null) {
                 musicFunctions.stopMusic();
             }
-            musicFunctions.song(song.getSong_id());
+            musicFunctions.song(song.getFilepath());
             musicFunctions.playMusic();
-            currentsong = song;
+            currentSong = song;
             btnPlay.setText("⏸");
             btnPlay.setFont(new Font(20));
-            lblName.setText(musicFunctions.getMusic());
+            lblName.setText(currentSong.getTitle());
             lblDuration.setText(song.getTime());
             return;
         }
@@ -260,16 +275,16 @@ public class MyTunesController {
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
 
         if (selectedIndex < 0) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Please select a song ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Please select a song ");
             return;
         }
 
         if (selectedIndex == 0) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Song is already on top ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Song is already on top ");
             return;
         }
 
@@ -292,16 +307,16 @@ public class MyTunesController {
         int maxIndex = listSongsOnPlaylist.getItems().size() - 1;
 
         if (selectedIndex < 0) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Please select a song ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Please select a song ");
             return;
         }
 
         if (selectedIndex == maxIndex) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Song is already on bottom ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Song is already on bottom ");
             return;
         }
 
@@ -324,17 +339,23 @@ public class MyTunesController {
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
 
         if (selectedSong == null) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Please select song to delete ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Please select song to delete ");
         }
         else {
             try {
                 Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
                 if (selectedPlaylist != null) {
                     int position = selectedIndex + 1;
+                    int selectedPlaylistIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
+
                     logic.deleteSongFromPlaylist(selectedPlaylist.getPlaylist_id(), position);
+                    logic.updatePlaylist(selectedPlaylist.getPlaylist_id());
                     updatePlaylistSongList();
+                    updatePlaylistTable();
+
+                    tablePlaylist.getSelectionModel().select(selectedPlaylistIndex);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -344,25 +365,31 @@ public class MyTunesController {
 
     public void btnMoveSongToPlaylistOnClick(ActionEvent actionEvent) {
         if (!isPlaylistSelected) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Please select playlist ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Please select playlist ");
         }
         else if (!isSongSelected) {
-            lblexception.setVisible(true);
-            lblexception.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblexception.setText(" Please select song ");
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" Please select song ");
         }
         else {
             try {
                 Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
                 Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-                logic.addSongToPlaylist(selectedSong.getSong_id(), selectedPlaylist.getPlaylist_id());
-                updatePlaylistSongList();
+                int selectedPlaylistIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
 
-                lblexception.setVisible(true);
-                lblexception.setStyle("-fx-text-fill: black;");
-                lblexception.setText(" Song \"" + tableSongs.getSelectionModel().getSelectedItem().getTitle() + "\" moved to \"" + tablePlaylist.getSelectionModel().getSelectedItem().getName() + "\" playlist");
+                logic.addSongToPlaylist(selectedSong.getSong_id(), selectedPlaylist.getPlaylist_id());
+                logic.updatePlaylist(selectedPlaylist.getPlaylist_id());
+                updatePlaylistSongList();
+                updatePlaylistTable();
+
+                tablePlaylist.getSelectionModel().select(selectedPlaylistIndex);
+
+                lblException.setVisible(true);
+                lblException.setStyle("-fx-text-fill: black;");
+                lblException.setText(" Song \"" + selectedSong.getTitle() + "\" moved to \"" + selectedPlaylist.getName() + "\" playlist");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -388,9 +415,5 @@ public class MyTunesController {
              *Implement label that will informs user if no song is selected for deletion
              */
         }
-    }
-
-    public void btnStatus(ActionEvent actionEvent) {
-        System.out.println(musicFunctions.getStatus());
     }
 }

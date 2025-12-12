@@ -73,22 +73,4 @@ public class SongsDAO {
             throw e;
         }
     }
-    public String playSong(int id) throws SQLException {
-        try (Connection con = conMan.getConnection()) {
-            String sql = "SELECT Filepath FROM Songs WHERE Song_id = ?";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            String path = rs.getString("Filepath");
-
-            stmt.close();
-            con.close();
-            return path;
-        }
-    }
-/**
-    public String getPath() {
-        return path;
-    }*/
 }

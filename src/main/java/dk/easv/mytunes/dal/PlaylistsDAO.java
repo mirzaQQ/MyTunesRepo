@@ -40,8 +40,6 @@ public class PlaylistsDAO {
             stmt.setInt(2, 0);
             stmt.setString(3, "0:00");
             stmt.executeUpdate();
-            stmt.close();
-            con.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -54,9 +52,41 @@ public class PlaylistsDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, playlist);
             stmt.executeUpdate();
-            stmt.close();
-            con.close();
+        }
+    }
 
+    public void updatePlaylist(int playlistId) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            String getSongs = "SELECT s.Time FROM PlaylistSong ps JOIN Songs s ON ps.Song_id = s.Song_id WHERE ps.Playlist_id = ?";
+            PreparedStatement stmt = con.prepareStatement(getSongs);
+            stmt.setInt(1, playlistId);
+            ResultSet rs = stmt.executeQuery();
+
+            int totalSeconds = 0;
+            int totalSongs = 0;
+
+            while (rs.next()) {
+                String time = rs.getString("Time");
+                String[] parts = time.split(":");
+                int minutes = Integer.parseInt(parts[0]);
+                int seconds = Integer.parseInt(parts[1]);
+                totalSeconds += minutes * 60 + seconds;
+                totalSongs++;
+            }
+
+            int totalMinutes = totalSeconds / 60;
+            int totalSecondsLeft = totalSeconds % 60;
+            String totalTime = totalMinutes + ":" + String.format("%02d", totalSecondsLeft);
+
+            String update = "UPDATE Playlists SET SongsNumber = ?, TotalTime = ? WHERE Playlist_id = ?";
+            PreparedStatement stmt2 = con.prepareStatement(update);
+            stmt2.setInt(1, totalSongs);
+            stmt2.setString(2, totalTime);
+            stmt2.setInt(3, playlistId);
+            stmt2.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 }

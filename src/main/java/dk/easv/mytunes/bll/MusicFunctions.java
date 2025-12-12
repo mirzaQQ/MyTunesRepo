@@ -1,24 +1,20 @@
 package dk.easv.mytunes.bll;
+
 import java.io.File;
 import java.sql.SQLException;
-import dk.easv.mytunes.dal.SongsDAO;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-import static java.lang.Double.parseDouble;
 
 public class MusicFunctions {
     private MediaPlayer mediaPlayer;
     private String bip;
-    private double currentvolume = 0.1;
+    private double currentVolume = 0.1;
 
-
-    public MediaPlayer song(int songid) throws SQLException {
-        SongsDAO songsDAO = new SongsDAO();
-        bip = songsDAO.playSong(songid);
+    public MediaPlayer song(String filepath) throws SQLException {
+        bip = filepath;
         Media hit = new Media(new File(bip).toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
-        mediaPlayer.setVolume(currentvolume);
+        mediaPlayer.setVolume(currentVolume);
         return mediaPlayer;
     }
 
@@ -40,9 +36,9 @@ public class MusicFunctions {
     }
 
     public void setVolume(double volume) {
-        currentvolume = volume;
+        currentVolume = volume;
         if (mediaPlayer != null) {
-            mediaPlayer.setVolume(currentvolume);
+            mediaPlayer.setVolume(currentVolume);
         }
     }
 
