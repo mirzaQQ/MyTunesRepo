@@ -19,12 +19,15 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.collections.transformation.FilteredList;
 
 public class MyTunesController {
     @FXML
     private Button closeButton;
     @FXML
     private Button btnPlay;
+    @FXML
+    private Button btnFilter;
     @FXML
     private Label lblName;
     @FXML
@@ -33,6 +36,8 @@ public class MyTunesController {
     private Label lblException;
     @FXML
     private Slider sliderVolume;
+    @FXML
+    private TextField txtFilter;
     @FXML
     private ListView<String> listSongsOnPlaylist;
     @FXML
@@ -53,18 +58,24 @@ public class MyTunesController {
     private TableColumn<Playlists, Integer> tablePlaylistSongs;
     @FXML
     private TableColumn<Playlists, String> tablePlaylistTime;
-    private Songs currentSong;
 
     private final Logic logic = new Logic();
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
     private final ObservableList<Playlists> playlistsObservableList = FXCollections.observableArrayList();
     private final ObservableList<String> playlistSongObservableList = FXCollections.observableArrayList();
     MusicFunctions musicFunctions = new MusicFunctions();
+    private Songs currentSong;
+    private FilteredList<Songs> filteredSongs;
     boolean isPlaylistSelected = false;
     boolean isSongSelected = false;
+    boolean BtnFilter = false;
 
     public void initialize() throws SQLException {
         initializeSongTable();
+
+        filteredSongs = new FilteredList<>(songsObservableList, _ -> true);
+        tableSongs.setItems(filteredSongs);
+
         initializePlaylistTable();
 
         listSongsOnPlaylist.setItems(playlistSongObservableList);
@@ -266,6 +277,21 @@ public class MyTunesController {
     }
 
     public void btnFilterOnClick(ActionEvent actionEvent) {
+        if (!BtnFilter) {
+            String filterText = txtFilter.getText().toLowerCase().trim();
+                if (filterText.isEmpty()) {
+                    return;
+                }
+            filteredSongs.setPredicate(song -> song.getTitle().toLowerCase().contains(filterText) || song.getArtist().toLowerCase().contains(filterText));
+            btnFilter.setText("X");
+            BtnFilter = true;
+        }
+        else {
+            filteredSongs.setPredicate(song -> true);
+            txtFilter.clear();
+            btnFilter.setText("\uD83D\uDD0E");
+            BtnFilter = false;
+        }
     }
 
     public void btnEditPlaylistOnClick(ActionEvent actionEvent) {

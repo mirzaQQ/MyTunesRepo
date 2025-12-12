@@ -58,9 +58,12 @@
                   <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="38.0" text="Filter: ">
                      <font>
                         <Font size="14.0" />
-                     </font></Label>
-                  <TextField prefHeight="26.0" prefWidth="123.0" />
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnFilterOnClick" prefHeight="26.0" prefWidth="28.0" text="🔎">
+                     </font>
+                     <HBox.margin>
+                        <Insets top="2.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="txtFilter" prefHeight="26.0" prefWidth="123.0" />
+                  <Button fx:id="btnFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnFilterOnClick" prefHeight="26.0" prefWidth="28.0" text="🔎">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin></Button>
