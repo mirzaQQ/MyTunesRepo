@@ -10,12 +10,15 @@ public class MusicFunctions {
     private String bip;
     private double currentVolume = 0.1;
 
-    public MediaPlayer song(String filepath) throws SQLException {
+    public void song(String filepath, Runnable onEndCallback) throws SQLException {
         bip = filepath;
         Media hit = new Media(new File(bip).toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
         mediaPlayer.setVolume(currentVolume);
-        return mediaPlayer;
+
+        if (onEndCallback != null) {
+            mediaPlayer.setOnEndOfMedia(onEndCallback);
+        }
     }
 
     public void playMusic() {

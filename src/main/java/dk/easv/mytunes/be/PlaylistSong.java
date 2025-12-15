@@ -28,4 +28,7 @@ public class PlaylistSong {
     public void setPosition(int Position) {
         this.Position = Position;
     }
+    public String toString(){
+        return title;
+    }
 }

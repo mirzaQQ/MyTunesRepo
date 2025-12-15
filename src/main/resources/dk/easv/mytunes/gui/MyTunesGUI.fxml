@@ -30,7 +30,7 @@
                      <font>
                         <Font size="18.0" />
                      </font></Button>
-                  <Button layoutX="144.0" layoutY="25.0" mnemonicParsing="false" style="-fx-background-radius: 100;" text="⮞">
+                  <Button layoutX="144.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnFwdOnClick" style="-fx-background-radius: 100;" text="⮞">
                      <font>
                         <Font size="18.0" />
                      </font></Button>
@@ -39,11 +39,11 @@
             </AnchorPane>
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="86.0" prefWidth="397.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="lblName" text="(none)">
+                  <Label fx:id="lblName" text="(none) ...">
                      <font>
                         <Font size="18.0" />
                      </font></Label>
-                  <Label text=" ... Is playing ">
+                  <Label text=" Is playing ">
                      <font>
                         <Font size="18.0" />
                      </font></Label>

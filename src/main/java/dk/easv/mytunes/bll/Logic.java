@@ -62,5 +62,4 @@ public class Logic {
    public void moveSongDownInDB(int playlistId, int position, int maxPosition) throws SQLException {
        playlistSongDAO.moveSongDownInDB(playlistId, position, maxPosition);
    }
-
 }

@@ -39,7 +39,7 @@ public class MyTunesController {
     @FXML
     private TextField txtFilter;
     @FXML
-    private ListView<String> listSongsOnPlaylist;
+    private ListView<PlaylistSong> listSongsOnPlaylist;
     @FXML
     private TableView<Songs> tableSongs;
     @FXML
@@ -60,15 +60,21 @@ public class MyTunesController {
     private TableColumn<Playlists, String> tablePlaylistTime;
 
     private final Logic logic = new Logic();
+    MusicFunctions musicFunctions = new MusicFunctions();
+
     private final ObservableList<Songs> songsObservableList = FXCollections.observableArrayList();
     private final ObservableList<Playlists> playlistsObservableList = FXCollections.observableArrayList();
-    private final ObservableList<String> playlistSongObservableList = FXCollections.observableArrayList();
-    MusicFunctions musicFunctions = new MusicFunctions();
+    private final ObservableList<PlaylistSong> playlistSongObservableList = FXCollections.observableArrayList();
+
     private Songs currentSong;
     private FilteredList<Songs> filteredSongs;
+
     boolean isPlaylistSelected = false;
     boolean isSongSelected = false;
     boolean BtnFilter = false;
+
+    private long lastBackClickTime = 0;
+    private static final long DOUBLE_CLICK_THRESHOLD = 500; // milliseconds
 
     public void initialize() throws SQLException {
         initializeSongTable();
@@ -135,11 +141,8 @@ public class MyTunesController {
         }
         playlistSongObservableList.clear();
         List<PlaylistSong> playlistSongs = logic.getAllPlaylistSongsFromDB(selectedPlaylist.getPlaylist_id());
-
-        for (PlaylistSong ps : playlistSongs)
-            playlistSongObservableList.add(ps.getTitle());
+        playlistSongObservableList.addAll(playlistSongs);
     }
-
 
     public void setSelectedPlaylist() {
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
@@ -166,18 +169,37 @@ public class MyTunesController {
         isSongSelected = selectedSong != null;
     }
 
+    public void playNextSong() throws SQLException {
+        int currentIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+        int nextIndex = currentIndex + 1;
+
+        if (nextIndex < playlistSongObservableList.size()) {
+            listSongsOnPlaylist.getSelectionModel().select(nextIndex);
+            btnPlayOnClick(null);
+        }
+        else {
+            listSongsOnPlaylist.getSelectionModel().select(0);
+            currentSong = null;
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
+            lblName.setText("");
+            lblDuration.setText("");
+        }
+    }
+
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
         Songs song = null;
-        String playlistSongTitle = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
+        PlaylistSong playlistSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
 
         if (selectedPlaylist != null && !playlistSongObservableList.isEmpty()) {
-            if (playlistSongTitle == null) {
-                playlistSongTitle = playlistSongObservableList.getFirst();
+            if (playlistSong == null) {
+                playlistSong = playlistSongObservableList.getFirst();
+                listSongsOnPlaylist.getSelectionModel().select(0);
             }
 
             for (Songs s : songsObservableList) {
-                if (s.getTitle().equals(playlistSongTitle)) {
+                if (s.getTitle().equals(playlistSong.getTitle())) {
                     song = s;
                     break;
                 }
@@ -193,7 +215,13 @@ public class MyTunesController {
             if (currentSong != null) {
                 musicFunctions.stopMusic();
             }
-            musicFunctions.song(song.getFilepath());
+            musicFunctions.song(song.getFilepath(), () -> {
+                try {
+                    playNextSong();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             musicFunctions.playMusic();
             currentSong = song;
             btnPlay.setText("⏸");
@@ -223,14 +251,45 @@ public class MyTunesController {
         musicFunctions.setVolume(sliderVolume.getValue());
     }
 
-    public void btnBckOnClick(ActionEvent actionEvent) {
-        /**
-         * !!!!!!TODO!!!!!!!!!
-         * First click restarts the music
-         * and the second one goes back one track
-         * if there is none then nothing happens or goes the last element of the playlist
-         */
-        musicFunctions.restartMusic();
+    public void btnBckOnClick(ActionEvent actionEvent) throws SQLException {
+        long currentTime = System.currentTimeMillis();
+        long timeDiff = currentTime - lastBackClickTime;
+
+        if (timeDiff < DOUBLE_CLICK_THRESHOLD && lastBackClickTime != 0) {
+            int currentIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+            int previousIndex = currentIndex - 1;
+
+            if (previousIndex >= 0) {
+                listSongsOnPlaylist.getSelectionModel().select(previousIndex);
+                btnPlayOnClick(null);
+            }
+            lastBackClickTime = 0;
+        }
+        else {
+            musicFunctions.restartMusic();
+            lastBackClickTime = currentTime;
+        }
+    }
+
+    public void btnFwdOnClick(ActionEvent actionEvent) throws SQLException{
+        int currentIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
+        int nextIndex = currentIndex + 1;
+
+        if (nextIndex < playlistSongObservableList.size()) {
+            listSongsOnPlaylist.getSelectionModel().select(nextIndex);
+            btnPlayOnClick(null);
+        }
+        else {
+            listSongsOnPlaylist.getSelectionModel().select(0);
+            currentSong = null;
+            if (musicFunctions.getStatus().equals("PLAYING")) {
+                musicFunctions.stopMusic();
+            }
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
+            lblName.setText("");
+            lblDuration.setText("");
+        }
     }
 
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
@@ -361,7 +420,7 @@ public class MyTunesController {
     }
 
     public void BtnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {
-        String selectedSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
+        PlaylistSong selectedSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
 
         if (selectedSong == null) {
