@@ -89,4 +89,17 @@ public class PlaylistsDAO {
             throw e;
         }
     }
+
+    public void updatePlaylistName(int playlistId, String newName) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            String update = "UPDATE Playlists SET Name = ? WHERE Playlist_id = ?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setString(1, newName);
+            stmt.setInt(2, playlistId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

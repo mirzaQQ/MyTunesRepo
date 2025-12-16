@@ -43,6 +43,9 @@ public class Logic {
     public void updatePlaylist(int playlistId) throws SQLException {
         playlistsDAO.updatePlaylist(playlistId);
     }
+    public void updatePlaylistName(int playlistId, String newName) throws SQLException {
+       playlistsDAO.updatePlaylistName(playlistId, newName);
+    }
     public boolean checkIfPlaylistExists(String playlistName) throws SQLException {
        List<Playlists> playlists = getAllPlaylistsFromDB();
        return playlists.stream().anyMatch(playlist -> playlist.getName().equalsIgnoreCase(playlistName));

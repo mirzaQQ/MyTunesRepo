@@ -319,10 +319,7 @@ public class MyTunesController {
 
     public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
-        /**
-         *ToDo
-         *Ask user if he wants to delete playlist
-         */
+
         if (selectedPlaylist != null) {
             logic.deletePlaylistFromDB(selectedPlaylist.getPlaylist_id());
             playlistsObservableList.remove(selectedPlaylist);
@@ -353,7 +350,28 @@ public class MyTunesController {
         }
     }
 
-    public void btnEditPlaylistOnClick(ActionEvent actionEvent) {
+    public void btnEditPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException{
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylist == null) {
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" No playlist selected for editing ");
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MyTunesPlaylistView.fxml"));
+        Parent root = loader.load();
+        NewPlaylistController controller = loader.getController();
+        controller.setPlaylistToEdit(selectedPlaylist);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Edit playlist");
+        stage.setResizable(false);
+        stage.showAndWait();
+        updatePlaylistTable();
+        int selectedIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
+        tablePlaylist.getSelectionModel().select(selectedIndex);
     }
 
     public void BtnMoveSongUpOnClick(ActionEvent actionEvent) {
@@ -482,14 +500,12 @@ public class MyTunesController {
     }
 
     public void BtnEditSongOnClick(ActionEvent actionEvent) {
+
     }
 
     public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
-        /**
-         *ToDo
-         *Ask user if he wants to delete song
-         */
+
         if (selectedSong != null) {
             logic.deleteSongFromDB(selectedSong.getSong_id());
             songsObservableList.remove(selectedSong);
