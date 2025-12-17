@@ -360,6 +360,12 @@ public class MyTunesController {
             return;
         }
 
+        if (musicFunctions.getStatus().equals("PLAYING")) {
+            musicFunctions.pauseMusic();
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
+        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MyTunesPlaylistView.fxml"));
         Parent root = loader.load();
         NewPlaylistController controller = loader.getController();
@@ -369,7 +375,10 @@ public class MyTunesController {
         stage.setTitle("Edit playlist");
         stage.setResizable(false);
         stage.showAndWait();
+
         updatePlaylistTable();
+        updatePlaylistSongList();
+
         int selectedIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
         tablePlaylist.getSelectionModel().select(selectedIndex);
     }
@@ -499,8 +508,40 @@ public class MyTunesController {
         }
     }
 
-    public void BtnEditSongOnClick(ActionEvent actionEvent) {
+    public void BtnEditSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
+        Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
 
+        if (selectedSong == null) {
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" No song selected for editing ");
+            return;
+        }
+
+        if (musicFunctions.getStatus().equals("PLAYING")) {
+            musicFunctions.pauseMusic();
+            btnPlay.setText("▶");
+            btnPlay.setFont(new Font(24));
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MyTunesSongView.fxml"));
+        Parent root = loader.load();
+
+        NewSongController controller = loader.getController();
+        controller.setSongToEdit(selectedSong);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Edit song");
+        stage.setResizable(false);
+        stage.showAndWait();
+
+        updateSongTable();
+        updatePlaylistTable();
+        updatePlaylistSongList();
+
+        int selectedIndex = tableSongs.getSelectionModel().getSelectedIndex();
+        tableSongs.getSelectionModel().select(selectedIndex);
     }
 
     public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {

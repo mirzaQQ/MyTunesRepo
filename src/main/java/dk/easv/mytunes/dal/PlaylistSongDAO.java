@@ -76,19 +76,6 @@ public class PlaylistSongDAO {
             throw e;
         }
     }
-    public String playFromPlaylist(int playlist, String SongName) throws SQLException {
-        try (Connection con = conMan.getConnection()) {
-            String sql = "SELECT Songs.Filepath  FROM Playlists,PlaylistSong,Songs WHERE Playlists.Playlist_id = PlaylistSong.Playlist_id AND PlaylistSong.Song_id = Songs.Song_id AND Playlists.Playlist_id = ? AND Songs.Title = ? ";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, playlist);
-            stmt.setString(2, SongName);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            stmt.close();
-            return rs.getString("Filepath");
-
-        }
-    }
 
     public void moveSongUpInDB(int playlist_Id, int position) throws SQLException {
         if (position <= 1) return;

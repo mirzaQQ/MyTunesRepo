@@ -1,8 +1,6 @@
 package dk.easv.mytunes.dal;
 
 import dk.easv.mytunes.be.Songs;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import dk.easv.mytunes.bll.Logic;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,7 +35,6 @@ public class SongsDAO {
     }
     public void insertSongs(String title, String artist,String time,String category, String file) throws SQLException {
         try (Connection con = conMan.getConnection()) {
-
             String sql_categID = "SELECT Category_id FROM Category WHERE Name = ?";
             PreparedStatement stmtid = con.prepareStatement(sql_categID);
             stmtid.setString(1, category);
@@ -61,10 +58,32 @@ public class SongsDAO {
 
     }
 
+    public void updateSong(int songId, String title, String artist, String category) throws SQLException {
+        try (Connection con = conMan.getConnection()) {
+            String sql_categID = "SELECT Category_id FROM Category WHERE Name = ?";
+            PreparedStatement stmtid = con.prepareStatement(sql_categID);
+            stmtid.setString(1, category);
+            ResultSet rs = stmtid.executeQuery();
+            rs.next();
+            int categoryId = rs.getInt("Category_id");
+
+            String update = "UPDATE Songs SET Title = ?, Artist = ?, Category = ? WHERE Song_id = ?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setString(1, title);
+            stmt.setString(2, artist);
+            stmt.setInt(3, categoryId);
+            stmt.setInt(4, songId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public void deleteSong(int id) throws SQLException {
         try (Connection con = conMan.getConnection()) {
-            String sql = "DELETE FROM Songs WHERE Song_id = ?";
-            PreparedStatement stmt = con.prepareStatement(sql);
+            String delete = "DELETE FROM Songs WHERE Song_id = ?";
+            PreparedStatement stmt = con.prepareStatement(delete);
             stmt.setInt(1, id);
             stmt.executeUpdate();
 

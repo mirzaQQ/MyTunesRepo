@@ -1,9 +1,11 @@
 package dk.easv.mytunes.gui;
 
 import dk.easv.mytunes.be.Category;
+import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.bll.FileChecker;
 import dk.easv.mytunes.bll.Logic;
 import dk.easv.mytunes.bll.MusicFunctions;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -40,12 +41,16 @@ public class NewSongController implements Initializable {
     private Label lblExist;
     @FXML
     private TextField txtMore;
-    private File currentFile;
     @FXML
     private ComboBox<String> category;
+
+    private File currentFile = null;
     private final ObservableList<String> categoriesObservableList = FXCollections.observableArrayList();
+    private Songs songToEdit = null;
+
     FileChecker fileChecker = new FileChecker();
     Logic logic = new Logic();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -58,6 +63,19 @@ public class NewSongController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setSongToEdit(Songs song) {
+        this.songToEdit = song;
+        txtTitle.setText(song.getTitle());
+        txtArtist.setText(song.getArtist());
+        category.setValue(song.getCategory());
+        txtTime.setText(song.getTime());
+        txtFile.setText(song.getFilepath());
+
+        txtTime.setDisable(true);
+        txtFile.setDisable(true);
+        txtFile.setOpacity(1);
     }
 
     public void btnClickedMore(ActionEvent actionEvent) {
@@ -88,9 +106,6 @@ public class NewSongController implements Initializable {
         }
     }
     public void btnChooseOnClick(ActionEvent actionEvent) throws IOException {
-        MusicFunctions musicFunctions = new MusicFunctions();
-        currentFile = fileChecker.open();
-
         if (currentFile != null) {
             txtFile.setText(currentFile.getCanonicalPath());
             if (fileChecker.checkfile(currentFile)) {
@@ -131,35 +146,43 @@ public class NewSongController implements Initializable {
     }
 
     public void btnSaveOnClick(ActionEvent actionEvent) throws SQLException {
-
         lblExist.setVisible(true);
-        if(!isEmpty()){
-            lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-            lblExist.setText(" Some fields are empty ");
-        }
-        else {
-            if(currentFile == null){
-                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-                lblExist.setText(" Please select a file ");
-            }
-            else {
-                if(!fileChecker.checkfile(currentFile)){
-                    lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
-                    lblExist.setText(" Not a valid format ");
-                }
-                else {
-                    lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
-                    lblExist.setText(" Saved successfully ");
-                    String categoryString = category.getValue().toString();
-                    String relativePath = getRelativePath(currentFile);
-                    logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, relativePath);
-                    Stage stage = (Stage) saveButton.getScene().getWindow();
-                    stage.close();
-                }
-            }
-        }
 
+        if (songToEdit != null) {
+            if (!isEmpty()) {
+                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                lblExist.setText(" Some fields are empty ");
+            } else {
+                lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
+                lblExist.setText(" Updated successfully");
+                logic.updateSong(songToEdit.getSong_id(), txtTitle.getText(), txtArtist.getText(), category.getValue());
+            }
+        } else {
+            if (!isEmpty()) {
+                lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                lblExist.setText(" Some fields are empty ");
+            } else {
+                if (currentFile == null) {
+                    lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                    lblExist.setText(" Please select a file ");
+                } else {
+                    if (!fileChecker.checkfile(currentFile)) {
+                        lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+                        lblExist.setText(" Not a valid format ");
+                    } else {
+                        lblExist.setStyle("-fx-text-fill: green; -fx-border-color: green; -fx-border-radius: 5px;");
+                        lblExist.setText(" Saved successfully ");
+                        String categoryString = category.getValue();
+                        String relativePath = getRelativePath(currentFile);
+                        logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, relativePath);
+                        Stage stage = (Stage) saveButton.getScene().getWindow();
+                        stage.close();
+                    }
+                }
+            }
+        }
     }
+
     private boolean isEmpty(){
         String text = txtTitle.getText().trim();
         String artist = txtArtist.getText().trim();
@@ -167,10 +190,7 @@ public class NewSongController implements Initializable {
             return false;
         }
         else{
-            if(text.isEmpty() || artist.isEmpty()){
-                return false;
-            }
-            return true;
+            return !text.isEmpty() && !artist.isEmpty();
         }
     }
 }
