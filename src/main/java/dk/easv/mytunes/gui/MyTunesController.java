@@ -22,6 +22,9 @@ import java.util.List;
 import javafx.collections.transformation.FilteredList;
 
 public class MyTunesController {
+    /**
+     * Initialises the controller class and global variables.
+     */
     @FXML
     private Button closeButton;
     @FXML
@@ -76,6 +79,18 @@ public class MyTunesController {
     private long lastBackClickTime = 0;
     private static final long DOUBLE_CLICK_THRESHOLD = 500; // milliseconds
 
+    /**
+     * All the methods that are not "ActionEvents".
+     * <p> <-- because ide won't shut up about this "blank line".
+     * initialize - initializes the song and playlist tables, sets up listeners for selection changes, and binds data to the UI components.
+     * updateSongTable - updates the song table with the latest data from the database.
+     * updatePlaylistTable - updates the playlist table with the latest data from the database.
+     * updatePlaylistSongList - updates the list of songs on the selected playlist in the playlist table.
+     * setSelectedPlaylist - sets the selected playlist in the playlist table and updates the list of songs on the playlist.
+     * setSelectedSong - sets the selected song in the song table.
+     * playNextSong - plays the next song in the playlist.
+     * stopButton - stops the music playback.
+     */
     public void initialize() throws SQLException {
         initializeSongTable();
 
@@ -182,10 +197,27 @@ public class MyTunesController {
             currentSong = null;
             btnPlay.setText("▶");
             btnPlay.setFont(new Font(24));
-            lblName.setText("");
+            lblName.setText("(none) ...");
             lblDuration.setText("");
         }
     }
+
+    public void stopButton() {
+        musicFunctions.pauseMusic();
+        btnPlay.setText("▶");
+        btnPlay.setFont(new Font(24));
+    }
+
+    /**
+     * All the methods that are in the top part of the app.
+     * <p>
+     * btnPlayOnClick - plays the selected song or toggles play/pause if a song is already playing.
+     * sliderOnClick - changes the volume when the slider is clicked.
+     * sliderOnMouseDrag - changes the volume when the slider is dragged.
+     * btnBckOnClick - restarts the current song or goes back to the previous song in the playlist.
+     * btnFwdOnClick - plays the next song in the playlist.
+     * btnFilterOnClick - filters the songs in the table based on the text in the text field.
+     */
 
     public void btnPlayOnClick(ActionEvent actionEvent) throws SQLException {
         Songs song = null;
@@ -231,11 +263,8 @@ public class MyTunesController {
             return;
         }
 
-        // Toggle play/pause for the same song
         if (musicFunctions.getStatus().equals("PLAYING")) {
-            musicFunctions.pauseMusic();
-            btnPlay.setText("▶");
-            btnPlay.setFont(new Font(24));
+            stopButton();
         } else {
             musicFunctions.playMusic();
             btnPlay.setText("⏸");
@@ -287,57 +316,17 @@ public class MyTunesController {
             }
             btnPlay.setText("▶");
             btnPlay.setFont(new Font(24));
-            lblName.setText("");
+            lblName.setText("(none) ...");
             lblDuration.setText("");
-        }
-    }
-
-    public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
-        Parent root = FXMLLoader.load(getClass().getResource("MyTunesSongView.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Add song");
-        stage.setResizable(false);
-        stage.showAndWait();
-        updateSongTable();
-    }
-
-    public void btnCloseClick(ActionEvent actionEvent) {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
-    }
-
-    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException {
-        Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Add playlist");
-        stage.setResizable(false);
-        stage.showAndWait();
-        updatePlaylistTable();
-    }
-
-    public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
-        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
-
-        if (selectedPlaylist != null) {
-            logic.deletePlaylistFromDB(selectedPlaylist.getPlaylist_id());
-            playlistsObservableList.remove(selectedPlaylist);
-        }
-        else {
-            /**
-             *ToDo
-             *Implement label that will informs user if no playlist is selected for deletion
-             */
         }
     }
 
     public void btnFilterOnClick(ActionEvent actionEvent) {
         if (!BtnFilter) {
             String filterText = txtFilter.getText().toLowerCase().trim();
-                if (filterText.isEmpty()) {
-                    return;
-                }
+            if (filterText.isEmpty()) {
+                return;
+            }
             filteredSongs.setPredicate(song -> song.getTitle().toLowerCase().contains(filterText) || song.getArtist().toLowerCase().contains(filterText));
             btnFilter.setText("X");
             BtnFilter = true;
@@ -348,6 +337,23 @@ public class MyTunesController {
             btnFilter.setText("\uD83D\uDD0E");
             BtnFilter = false;
         }
+    }
+
+    /**
+     * All the buttons that are connected with the Playlist table.
+     * <p>
+     * btnNewPlaylistOnClick - opens a new window to add a new playlist.
+     * btnEditPlaylistOnClick - opens a new window to edit the selected playlist.
+     */
+
+    public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException {
+        Parent root = FXMLLoader.load(getClass().getResource("MyTunesPlaylistView.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Add playlist");
+        stage.setResizable(false);
+        stage.showAndWait();
+        updatePlaylistTable();
     }
 
     public void btnEditPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException{
@@ -361,9 +367,7 @@ public class MyTunesController {
         }
 
         if (musicFunctions.getStatus().equals("PLAYING")) {
-            musicFunctions.pauseMusic();
-            btnPlay.setText("▶");
-            btnPlay.setFont(new Font(24));
+            stopButton();
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MyTunesPlaylistView.fxml"));
@@ -382,6 +386,29 @@ public class MyTunesController {
         int selectedIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
         tablePlaylist.getSelectionModel().select(selectedIndex);
     }
+
+    public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
+        Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylist != null) {
+            logic.deletePlaylistFromDB(selectedPlaylist.getPlaylist_id());
+            playlistsObservableList.remove(selectedPlaylist);
+        }
+        else {
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" No playlist selected for deletion ");
+        }
+    }
+
+    /**
+     * All the buttons that are connected with the Song list on the Playlist.
+     * <p>
+     * BtnMoveSongUpOnClick - moves the selected song up in the list.
+     * BtnMoveSongDownOnClick - moves the selected song down in the list.
+     * BtnDeleteSongInPlaylistOnClick - deletes the selected song from the playlist.
+     * btnMoveSongToPlaylistOnClick - moves the selected song to the selected playlist.
+     */
 
     public void BtnMoveSongUpOnClick(ActionEvent actionEvent) {
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
@@ -411,7 +438,6 @@ public class MyTunesController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void BtnMoveSongDownOnClick(ActionEvent actionEvent) {
@@ -508,6 +534,24 @@ public class MyTunesController {
         }
     }
 
+    /**
+     * All the buttons that are connected with the Song table.
+     * <p>
+     * btnNewSongOnClick - opens a new window to add a new song.
+     * BtnEditSongOnClick - opens a new window to edit the selected song.
+     * BtnDeleteSongOnClick - deletes the selected song from the database.
+     */
+
+    public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
+        Parent root = FXMLLoader.load(getClass().getResource("MyTunesSongView.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Add song");
+        stage.setResizable(false);
+        stage.showAndWait();
+        updateSongTable();
+    }
+
     public void BtnEditSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
 
@@ -519,9 +563,7 @@ public class MyTunesController {
         }
 
         if (musicFunctions.getStatus().equals("PLAYING")) {
-            musicFunctions.pauseMusic();
-            btnPlay.setText("▶");
-            btnPlay.setFont(new Font(24));
+            stopButton();
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MyTunesSongView.fxml"));
@@ -552,10 +594,20 @@ public class MyTunesController {
             songsObservableList.remove(selectedSong);
         }
         else {
-            /**
-             *ToDo
-             *Implement label that will informs user if no song is selected for deletion
-             */
+            lblException.setVisible(true);
+            lblException.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
+            lblException.setText(" No song selected for deletion ");
         }
+    }
+
+    /**
+     * This one doesn't have friends :<
+     * <p>
+     * btnCloseClick - closes the application window. duh
+     */
+
+    public void btnCloseClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 }

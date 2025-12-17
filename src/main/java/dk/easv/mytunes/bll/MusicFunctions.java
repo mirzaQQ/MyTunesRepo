@@ -22,13 +22,10 @@ public class MusicFunctions {
     }
 
     public void playMusic() {
-
        mediaPlayer.play();
-
     }
     public void pauseMusic() {
        mediaPlayer.pause();
-
     }
     public String getStatus() {
         /** Status can be PLAYING, READY or stopped
@@ -42,20 +39,6 @@ public class MusicFunctions {
         currentVolume = volume;
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(currentVolume);
-        }
-    }
-
-    public String getMusic() {
-        /**
-         * Method created just to obtain the name of the name of the file.
-         */
-        String regex = "[\\\\]";
-        String[] splitedBip = bip.split(regex);
-        String music = splitedBip[splitedBip.length - 1];
-        if(music.contains(".wav"))
-            return music.replace(".wav", "").trim();
-        else{
-            return music.replace(".mp3", "").trim();
         }
     }
 

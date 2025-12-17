@@ -4,7 +4,6 @@ import dk.easv.mytunes.be.Category;
 import dk.easv.mytunes.be.Songs;
 import dk.easv.mytunes.bll.FileChecker;
 import dk.easv.mytunes.bll.Logic;
-import dk.easv.mytunes.bll.MusicFunctions;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,8 +22,10 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-
 public class NewSongController implements Initializable {
+    /**
+     * Initialises the controller class and global variables.
+     */
     @FXML
     private TextField txtTitle;
     @FXML
@@ -44,13 +45,21 @@ public class NewSongController implements Initializable {
     @FXML
     private ComboBox<String> category;
 
-    private File currentFile = null;
+    private final File currentFile = null;
     private final ObservableList<String> categoriesObservableList = FXCollections.observableArrayList();
     private Songs songToEdit = null;
 
     FileChecker fileChecker = new FileChecker();
     Logic logic = new Logic();
 
+    /**
+     * All the methods that are not buttons of any kind.
+     * <p>
+     * initialize - initializes the combobox with all the categories from the database.
+     * setSongToEdit - sets the song to edit if the user clicked the edit button.
+     * getRelativePath - gets the relative path of the file.
+     * isEmpty - checks if the fields are empty.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -77,6 +86,38 @@ public class NewSongController implements Initializable {
         txtFile.setDisable(true);
         txtFile.setOpacity(1);
     }
+
+    private String getRelativePath(File file) {
+        String absolutePath = file.getAbsolutePath();
+        String resourcesPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "music";
+
+        int index = absolutePath.indexOf(resourcesPath);
+        if (index != -1) {
+            return absolutePath.substring(index).replace(file.separator, "/");
+        }
+        return absolutePath;
+    }
+
+    private boolean isEmpty(){
+        String text = txtTitle.getText().trim();
+        String artist = txtArtist.getText().trim();
+        if(txtTitle.getText() == null || txtArtist.getText() == null || txtFile.getText() == null || category.getValue() == null){
+            return false;
+        }
+        else{
+            return !text.isEmpty() && !artist.isEmpty();
+        }
+    }
+
+    /**
+     * All the button methods.
+     * <p>
+     * btnClickedMore - shows the text field for adding more categories.
+     * txtEnterPressed - adds the category to the combobox if the text field is not empty.
+     * btnChooseOnClick - opens a file chooser to select a file.
+     * btnCancelClick - closes the window.
+     * btnSaveOnClick - saves the song to the database.
+     */
 
     public void btnClickedMore(ActionEvent actionEvent) {
         txtMore.setVisible(true);
@@ -105,10 +146,11 @@ public class NewSongController implements Initializable {
             }
         }
     }
+
     public void btnChooseOnClick(ActionEvent actionEvent) throws IOException {
         if (currentFile != null) {
             txtFile.setText(currentFile.getCanonicalPath());
-            if (fileChecker.checkfile(currentFile)) {
+            if (fileChecker.checkFile(currentFile)) {
                 try {
                     Media media = new Media(currentFile.toURI().toString());
                     MediaPlayer tempPlayer = new MediaPlayer(media);
@@ -127,17 +169,6 @@ public class NewSongController implements Initializable {
                 txtTime.setText("ERROR");
             }
         }
-    }
-
-    private String getRelativePath(File file) {
-        String absolutePath = file.getAbsolutePath();
-        String resourcesPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "music";
-
-        int index = absolutePath.indexOf(resourcesPath);
-        if (index != -1) {
-            return absolutePath.substring(index).replace(file.separator, "/");
-        }
-        return absolutePath;
     }
 
     public void btnCancelClick(ActionEvent actionEvent) {
@@ -166,7 +197,7 @@ public class NewSongController implements Initializable {
                     lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
                     lblExist.setText(" Please select a file ");
                 } else {
-                    if (!fileChecker.checkfile(currentFile)) {
+                    if (!fileChecker.checkFile(currentFile)) {
                         lblExist.setStyle("-fx-text-fill: red; -fx-border-color: red; -fx-border-radius: 5px;");
                         lblExist.setText(" Not a valid format ");
                     } else {
@@ -180,17 +211,6 @@ public class NewSongController implements Initializable {
                     }
                 }
             }
-        }
-    }
-
-    private boolean isEmpty(){
-        String text = txtTitle.getText().trim();
-        String artist = txtArtist.getText().trim();
-        if(txtTitle.getText() == null || txtArtist.getText() == null || txtFile.getText() == null || category.getValue() == null){
-            return false;
-        }
-        else{
-            return !text.isEmpty() && !artist.isEmpty();
         }
     }
 }

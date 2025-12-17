@@ -8,9 +8,6 @@ public class Category {
         this.Category_id = Category_id;
         this.Name = Name;
     }
-    public int getId() {
-        return Category_id;
-    }
     public String getName() {
         return Name;
     }

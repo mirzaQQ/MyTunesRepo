@@ -13,20 +13,8 @@ public class PlaylistSong {
         this.title = title;
     }
 
-    public int getPlaylists_id() {
-        return Playlist_id;
-    }
-    public int  getSongs_id() {
-        return Song_id;
-    }
-    public int getPosition() {
-        return Position;
-    }
     public String getTitle() {
         return title;
-    }
-    public void setPosition(int Position) {
-        this.Position = Position;
     }
     public String toString(){
         return title;

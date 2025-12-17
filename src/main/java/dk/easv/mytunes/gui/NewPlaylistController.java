@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 public class NewPlaylistController {
+    /**
+     * Initialises the controller class and global variables.
+     */
     @FXML
     private Label lblException;
     @FXML

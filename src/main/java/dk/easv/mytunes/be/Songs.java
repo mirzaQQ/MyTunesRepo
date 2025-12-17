@@ -35,14 +35,8 @@ public class Songs {
     public String getTitle() {
         return Title;
     }
-    public void setTitle(String Title) {
-        this.Title = Title;
-    }
     public String getArtist() {
         return Artist;
-    }
-    public void setArtist(String Artist) {
-        this.Artist = Artist;
     }
     public String getCategory() {
         return Category;
@@ -50,14 +44,8 @@ public class Songs {
     public String getTime() {
         return time;
     }
-    public void setTime(String time) {
-        this.time = time;
-    }
     public String getFilepath() {
         return Filepath;
-    }
-    public void setFilepath(String Filepath) {
-        this.Filepath = Filepath;
     }
     public int getSong_id() {
         return Song_id;
