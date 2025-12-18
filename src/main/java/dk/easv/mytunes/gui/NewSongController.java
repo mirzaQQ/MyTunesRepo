@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import java.io.File;
@@ -45,7 +46,7 @@ public class NewSongController implements Initializable {
     @FXML
     private ComboBox<String> category;
 
-    private final File currentFile = null;
+    private File currentFile = null;
     private final ObservableList<String> categoriesObservableList = FXCollections.observableArrayList();
     private Songs songToEdit = null;
 
@@ -148,16 +149,32 @@ public class NewSongController implements Initializable {
     }
 
     public void btnChooseOnClick(ActionEvent actionEvent) throws IOException {
-        if (currentFile != null) {
-            txtFile.setText(currentFile.getCanonicalPath());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Song File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav", "*.m4a"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+
+        File musicFolder = new File("src/main/resources/music");
+        if (musicFolder.exists() && musicFolder.isDirectory()) {
+            fileChooser.setInitialDirectory(musicFolder);
+        }
+
+        File selectedFile = fileChooser.showOpenDialog(txtFile.getScene().getWindow());
+
+        if (selectedFile != null) {
+            currentFile = selectedFile;
+            txtFile.setText(selectedFile.getCanonicalPath());
+
             if (fileChecker.checkFile(currentFile)) {
                 try {
                     Media media = new Media(currentFile.toURI().toString());
                     MediaPlayer tempPlayer = new MediaPlayer(media);
-                    media.durationProperty().addListener((_, _, newDurration) -> {
-                        if (newDurration != null && !newDurration.isUnknown()) {
-                            long minutes = (long) newDurration.toMinutes();
-                            long seconds = (long) newDurration.toSeconds() % 60;
+                    media.durationProperty().addListener((_, _, newDuration) -> {
+                        if (newDuration != null && !newDuration.isUnknown()) {
+                            long minutes = (long) newDuration.toMinutes();
+                            long seconds = (long) newDuration.toSeconds() % 60;
                             txtTime.setText(String.format("%02d:%02d", minutes, seconds));
                             tempPlayer.dispose();
                         }
@@ -206,8 +223,6 @@ public class NewSongController implements Initializable {
                         String categoryString = category.getValue();
                         String relativePath = getRelativePath(currentFile);
                         logic.getInfo(txtTitle.getText(), txtArtist.getText(), txtTime.getText(), categoryString, relativePath);
-                        Stage stage = (Stage) saveButton.getScene().getWindow();
-                        stage.close();
                     }
                 }
             }
