@@ -118,15 +118,15 @@
                   <ListView fx:id="listSongsOnPlaylist" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="240.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="30.0" maxWidth="200.0" prefHeight="30.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#BtnMoveSongUpOnClick" text="🡅">
+                        <Button mnemonicParsing="false" onAction="#btnMoveSongUpOnClick" text="🡅">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#BtnMoveSongDownOnClick" text="🡇">
+                        <Button mnemonicParsing="false" onAction="#btnMoveSongDownOnClick" text="🡇">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#BtnDeleteSongInPlaylistOnClick" text="Delete">
+                        <Button mnemonicParsing="false" onAction="#btnDeleteSongInPlaylistOnClick" text="Delete">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
@@ -158,11 +158,11 @@
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#BtnEditSongOnClick" text="Edit...">
+                        <Button mnemonicParsing="false" onAction="#btnEditSongOnClick" text="Edit...">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#BtnDeleteSongOnClick" text="Delete">
+                        <Button mnemonicParsing="false" onAction="#btnDeleteSongOnClick" text="Delete">
                            <HBox.margin>
                               <Insets right="10.0" top="5.0" />
                            </HBox.margin></Button>

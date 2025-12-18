@@ -344,6 +344,7 @@ public class MyTunesController {
      * <p>
      * btnNewPlaylistOnClick - opens a new window to add a new playlist.
      * btnEditPlaylistOnClick - opens a new window to edit the selected playlist.
+     * btnDeletePlaylistOnClick - deletes the selected playlist from the database.
      */
 
     public void btnNewPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException {
@@ -358,6 +359,7 @@ public class MyTunesController {
 
     public void btnEditPlaylistOnClick(ActionEvent actionEvent) throws IOException, SQLException{
         Playlists selectedPlaylist = tablePlaylist.getSelectionModel().getSelectedItem();
+        int selectedIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
 
         if (selectedPlaylist == null) {
             lblException.setVisible(true);
@@ -383,8 +385,9 @@ public class MyTunesController {
         updatePlaylistTable();
         updatePlaylistSongList();
 
-        int selectedIndex = tablePlaylist.getSelectionModel().getSelectedIndex();
         tablePlaylist.getSelectionModel().select(selectedIndex);
+        lblName.setText("(none) ...");
+        lblDuration.setText("");
     }
 
     public void btnDeletePlaylistOnClick (ActionEvent actionEvent) throws SQLException {
@@ -404,13 +407,13 @@ public class MyTunesController {
     /**
      * All the buttons that are connected with the Song list on the Playlist.
      * <p>
-     * BtnMoveSongUpOnClick - moves the selected song up in the list.
-     * BtnMoveSongDownOnClick - moves the selected song down in the list.
-     * BtnDeleteSongInPlaylistOnClick - deletes the selected song from the playlist.
+     * btnMoveSongUpOnClick - moves the selected song up in the list.
+     * btnMoveSongDownOnClick - moves the selected song down in the list.
+     * btnDeleteSongInPlaylistOnClick - deletes the selected song from the playlist.
      * btnMoveSongToPlaylistOnClick - moves the selected song to the selected playlist.
      */
 
-    public void BtnMoveSongUpOnClick(ActionEvent actionEvent) {
+    public void btnMoveSongUpOnClick(ActionEvent actionEvent) {
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
 
         if (selectedIndex < 0) {
@@ -440,7 +443,7 @@ public class MyTunesController {
         }
     }
 
-    public void BtnMoveSongDownOnClick(ActionEvent actionEvent) {
+    public void btnMoveSongDownOnClick(ActionEvent actionEvent) {
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
         int maxIndex = listSongsOnPlaylist.getItems().size() - 1;
 
@@ -472,7 +475,7 @@ public class MyTunesController {
         }
     }
 
-    public void BtnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {
+    public void btnDeleteSongInPlaylistOnClick(ActionEvent actionEvent) {
         PlaylistSong selectedSong = listSongsOnPlaylist.getSelectionModel().getSelectedItem();
         int selectedIndex = listSongsOnPlaylist.getSelectionModel().getSelectedIndex();
 
@@ -538,8 +541,8 @@ public class MyTunesController {
      * All the buttons that are connected with the Song table.
      * <p>
      * btnNewSongOnClick - opens a new window to add a new song.
-     * BtnEditSongOnClick - opens a new window to edit the selected song.
-     * BtnDeleteSongOnClick - deletes the selected song from the database.
+     * btnEditSongOnClick - opens a new window to edit the selected song.
+     * btnDeleteSongOnClick - deletes the selected song from the database.
      */
 
     public void btnNewSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
@@ -552,8 +555,9 @@ public class MyTunesController {
         updateSongTable();
     }
 
-    public void BtnEditSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
+    public void btnEditSongOnClick(ActionEvent actionEvent) throws IOException, SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
+        int selectedIndex = tableSongs.getSelectionModel().getSelectedIndex();
 
         if (selectedSong == null) {
             lblException.setVisible(true);
@@ -582,11 +586,12 @@ public class MyTunesController {
         updatePlaylistTable();
         updatePlaylistSongList();
 
-        int selectedIndex = tableSongs.getSelectionModel().getSelectedIndex();
         tableSongs.getSelectionModel().select(selectedIndex);
+        lblName.setText("(none) ...");
+        lblDuration.setText("");
     }
 
-    public void BtnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
+    public void btnDeleteSongOnClick(ActionEvent actionEvent) throws SQLException {
         Songs selectedSong = tableSongs.getSelectionModel().getSelectedItem();
 
         if (selectedSong != null) {

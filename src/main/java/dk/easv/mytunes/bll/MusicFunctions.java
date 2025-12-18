@@ -28,10 +28,13 @@ public class MusicFunctions {
        mediaPlayer.pause();
     }
     public String getStatus() {
-        /** Status can be PLAYING, READY or stopped
+        /* Status can be PLAYING, READY or stopped
          * we can use this to play and stop the music
          * with the same button
          */
+        if (mediaPlayer == null) {
+            return "STOPPED";
+        }
         return mediaPlayer.getStatus().toString();
     }
 

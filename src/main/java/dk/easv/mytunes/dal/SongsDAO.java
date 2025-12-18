@@ -39,7 +39,7 @@ public class SongsDAO {
             PreparedStatement stmtid = con.prepareStatement(sql_categID);
             stmtid.setString(1, category);
             ResultSet rs = stmtid.executeQuery();
-            rs.next(); 
+            rs.next();
             int id = rs.getInt("Category_id");
 
             String sql = "INSERT INTO Songs (Title, Artist, Category, Time ,Filepath) VALUES (?, ?, ?, ?, ?)";
